@@ -39,6 +39,8 @@
 	
   const outp = document.getElementById('output');
 
+var offset = 40;
+
   // -------------------------------------------------
 
 // let mouse = new MouseEvent("click", {
@@ -51,7 +53,7 @@
   const selectCanvas = document.getElementById('canvasId');
 	
   selectCanvas.addEventListener("mousedown", (e) => {
-     ctx.moveTo(e.clientX, e.clientY-20);
+     ctx.moveTo(e.clientX, e.clientY-offset);
      ctx.beginPath();
      selectCanvas.addEventListener("mousemove", createlines, false);
   }, false);
@@ -59,7 +61,7 @@
 
 
   var createlines = function(e){
-	     ctx.lineTo(e.clientX, e.clientY-20);
+	     ctx.lineTo(e.clientX, e.clientY-offset);
 	     ctx.stroke();
   };
 	
