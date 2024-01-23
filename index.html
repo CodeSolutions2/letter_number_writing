@@ -106,24 +106,24 @@
         // ctx.drawImage(image, 0,0, 224, 224);
         // var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
 
+        // Error: Requested texture size [0x0] is invalid
+
         // OR
 	
         const tensor_image = tf.browser.fromPixels(canvasElement); // This is size 224,224,3
         // ----------------------
 
-        //const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
+        const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
 
         const image_4D_int = tf.cast(tensor_image, 'int32')
 	// Error: The dtype of dict['image_tensor'] provided in model.execute(dict) must be int32, but was float32
 
         // ----------------------
-
-	      //Error: Requested texture size [0x0] is invalid
-
-        // document.getElementById("outData").innerHTML = tf.max(tensor_image);
+	outp.innerHTML = tf.max(tensor_image);
+	      
 
         // Give image to model
-        model.detect(image_4D_int).then(predictions => { outp.innerHTML = predictions; }); 
+        model.detect(image_4D).then(predictions => { outp.innerHTML = predictions; }); 
       
       });
 
