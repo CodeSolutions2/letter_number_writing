@@ -134,7 +134,9 @@
 		ctx.beginPath();
 		ctx.strokeStyle = "red";  // color of line
 		ctx.drawImage(image, 0, 0, 224, 224);
-		outp.innerHTML = 'Here0';
+		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
+outp.innerHTML = tf.max(tensor_image);
+		
 		      model.detect(image).then(predictions => { outp.innerHTML = 'Here1: ' + predictions; }); 
 	  };
         // ----------------------
@@ -147,7 +149,7 @@
 
         // ----------------------
 	      
-        // outp.innerHTML = tf.max(tensor_image);
+        // 
 	      
 	// outp.innerHTML = tf.max(tensor_image_int);
 	// No response
