@@ -103,7 +103,7 @@
 
         const image = new Image();
         // image.src = 
-        ctx.drawImage(image, 0,0);
+        ctx.drawImage(image, 0,0, 224, 224);
         var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
 
         // OR
@@ -117,6 +117,8 @@
 	// Error: The dtype of dict['image_tensor'] provided in model.execute(dict) must be int32, but was float32
 
         // ----------------------
+
+	      //Error: Requested texture size [0x0] is invalid
 
         // document.getElementById("outData").innerHTML = tf.max(tensor_image);
 
