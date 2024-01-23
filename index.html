@@ -109,9 +109,9 @@
         // ----------------------
         // Test if it has received the image
 
-        const image = new Image();
-        image.src = canvasElement.toDataURL();
-        ctx.drawImage(image, 0, 0, 224, 224);
+        // const image = new Image();
+        // image.src = canvasElement.toDataURL();  // This gives the url to the image drawn on the canvas
+        // ctx.drawImage(image, 0, 0, 224, 224);
         // var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
 	
 	// Error: Requested texture size [0x0] is invalid.
@@ -119,10 +119,12 @@
         // OR
 	
         // const tensor_image = tf.browser.fromPixels(canvasElement); // This is size 224,224,3
-	      
-        // ----------------------
 
-        outp.innerHTML = 'Here 1';
+	// OR
+	img.onload = () => {
+		      model.detect(img).then(predictions => { outp.innerHTML = predictions; }); 
+	  };
+        // ----------------------
 
         // const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
 	// Uncaught (in promise) Error: The shape of dict['image_tensor'] provided in model.execute(dict) must be [-1,-1,-1,3], but was [1,1,224,224,3]
@@ -138,11 +140,9 @@
 	// No response
 
         // ----------------------
-	      
-	outp.innerHTML = 'Here 2';
-	      
+
         // Give image to model
-        model.detect(image).then(predictions => { outp.innerHTML = predictions; }); 
+        // model.detect(image).then(predictions => { outp.innerHTML = predictions; }); 
 
         // ----------------------
 	});
