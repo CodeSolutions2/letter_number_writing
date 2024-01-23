@@ -112,7 +112,7 @@
 
         const image = new Image();
         image.src = selectCanvas.toDataURL();
-        ctx.drawImage(image, 0,0, 224, 224);
+        ctx.drawImage(this, 0, 0);
         var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
 
         // OR
