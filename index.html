@@ -129,12 +129,12 @@
 	// OR
 
 	const image = new Image();
-	image.src = canvasElement.toDataURL();
+	image.src = canvasElement.toDataURL();  // This gives the url to the image drawn on the canvas
 	image.onload = () => {
+		ctx.strokeStyle = "red";  // color of line
+		ctx.drawImage(image, 0, 0, 224, 224);
 		outp.innerHTML = 'Here0';
-		      model.detect(image).then(predictions => { outp.innerHTML = predictions; 
-							      outp.innerHTML = 'Here1';
-							      }); 
+		      model.detect(image).then(predictions => { outp.innerHTML = 'Here1: ' + predictions; }); 
 	  };
         // ----------------------
 
