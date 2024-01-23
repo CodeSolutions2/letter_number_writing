@@ -8,6 +8,9 @@
 	
 	
 <!-- OCR webapp -->
+<!-- https://js.tensorflow.org/api/1.0.0/ -->
+<!-- https://www.jsdelivr.com/?query=author%3A%20tensorflow&page=1 -->
+	
    <h2 id="select_model" style='text-align: left; display:none'>Write a captial letter or number in the box, click the button to classify</h2>
    
 		
@@ -98,7 +101,7 @@
 	  try {
       outp.innerHTML = 'Here 0';
 	
-      await cocoSsd.load().then(model => {
+      cocoSsd.load().then(model => {
 	
         // ----------------------
         // Test if it has received the image
