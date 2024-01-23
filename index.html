@@ -110,9 +110,9 @@
         // const tensor_image = tf.browser.fromPixels(canvasElement); // This is size 224,224,3
         // ----------------------
 
-        const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
+        //const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
 
-        const image_4D_int = tf.cast(image_4D, 'int32')
+        const image_4D_int = tf.cast(tensor_image, 'int32')
 	// Error: The dtype of dict['image_tensor'] provided in model.execute(dict) must be int32, but was float32
 
         // ----------------------
