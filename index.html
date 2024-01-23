@@ -34,20 +34,42 @@
   // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
   var canvasElement = document.getElementById("canvasId");
   const ctx = canvasElement.getContext("2d");
-  
+
+  // -------------------------------------------------
+	
   const outp = document.getElementById('output');
 
   // -------------------------------------------------
 	
-  // Way 0: eventlistener
+  // eventlistener for mousedown
   const selectCanvas = document.getElementById('canvasId');
+	
   selectCanvas.addEventListener("mousedown", () => {
-    
+    ctx.moveTo(mouse.x, mouse.y);
+    ctx.beginPath();
+	  selectCanvas.addEventListener("mousemove", createlines, false);
+				       }, false);
+	
+  }, false);
 
-     var selected_image = document.getElementById("select_this_image").value;
-  });
+
+var createlines = function(){
+	     ctx.lineTo(mouse.x, mouse.y);
+	     ctx.stroke();
+				 };
+  // -------------------------------------------------
 	
-	
+  selectCanvas.addEventListener("mouseup", () => {
+
+	  selectCanvas.removeEventListener('mousemove', createlines, false);
+
+	  const img = new Image();
+  img.onload = () => {
+ctx.drawImage(img, 0, 0, 28, 28);
+  };
+	  img.src = selectCanvas.toDataURL('image/png');
+
+	    }, false);
   // -------------------------------------------------
 
   async function run_saved_classifer(){
