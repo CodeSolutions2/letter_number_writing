@@ -131,7 +131,10 @@
 	const image = new Image();
 	image.src = canvasElement.toDataURL();
 	image.onload = () => {
-		      model.detect(image).then(predictions => { outp.innerHTML = predictions; }); 
+		outp.innerHTML = 'Here0';
+		      model.detect(image).then(predictions => { outp.innerHTML = predictions; 
+							      outp.innerHTML = 'Here1';
+							      }); 
 	  };
         // ----------------------
 
