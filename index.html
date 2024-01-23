@@ -28,7 +28,7 @@
     </style>
   
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
 
   
 <script>
@@ -48,7 +48,7 @@
 	
   selectCanvas.addEventListener("mousedown", (e) => {
      ctx.lineTo(e.offsetX, e.offsetY);
-     ctx.lineWidth = 15;
+     ctx.lineWidth = 10;  // thickness of line
      ctx.beginPath();
      selectCanvas.addEventListener("mousemove", createlines, false);
   }, false);
@@ -58,20 +58,20 @@
   var createlines = function(e){
 
 	  // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageX
-	  // returns the X (horizontal) coordinate (in pixels) at which the mouse was clicked, relative to the left edge of the entire document
+	  // returns the X (horizontal) coordinate (in pixels) at which the mouse was clicked, relative to the left edge of the entire document (close)
 	  // ctx.lineTo(e.pageX-e.offsetX, e.pageY-e.offsetY);
 	  // OR
 	  // the horizontal/vertical coordinate (offset) of the mouse pointer in screen coordinates. (not correct)
 	  // ctx.lineTo(e.screenX, e.screenY);
 	  // OR
 	  // the horizontal coordinate within the application's viewport at which the event occurred (as opposed to the coordinate within the page). (close)
-	  // ctx.lineTo(e.clientX-e.offsetX, e.clientY-e.offsetY);
+	  // ctx.lineTo(e.clientX, e.clientY);
+	  // OR
+	  // provides the offset in the X coordinate of the mouse pointer between that event and the padding edge of the target node. (CORRECT!!)
 	  ctx.lineTo(e.offsetX, e.offsetY);
 	  
-	  ctx.strokeStyle = "blue";
+	  ctx.strokeStyle = "green";  // color of line
 	  ctx.stroke();
-	  //ctx.fillStyle = "rgb(200 0 0)";
-	  //ctx.fillStyle = "rgb(0 0 200 / 50%)";
   };
 	
   // -------------------------------------------------
@@ -81,12 +81,11 @@
 	  selectCanvas.removeEventListener('mousemove', createlines, false);
 
 	  const img = new Image();
-  img.onload = () => {
-ctx.drawImage(img, 0, 0, 28, 28);
-  
-  };
+  	  img.onload = () => {
+	  ctx.drawImage(img, 0, 0, 28, 28);
+	  };
 
-	    }, false);
+  }, false);
   // -------------------------------------------------
 
   async function run_object_detection(){
@@ -97,12 +96,15 @@ ctx.drawImage(img, 0, 0, 28, 28);
 	const image = new Image();
 
 	//image.src = await load_image_basedOn_selection();
-          
+
+	  
 	image.onload = async function (){
 		  
             // Draw image on canvas
             document.getElementById("canvasId").style.display = "block";
             ctx.drawImage(image, 0,0);
+
+		outp.innerHTML = 'Before running object detection';
 
 		// Run the object detection model
 		cocoSsd.load().then(model => {
