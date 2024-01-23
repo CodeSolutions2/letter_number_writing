@@ -29,9 +29,10 @@
   
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
 <!-- DOES NOT WORK -->
-	    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script> 
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script> 
+	    
 <!--  <script src="https://cdn.jsdelivr.net/npm/@koush/coco-ssd@2.2.15/dist/index.min.js"></script> -->
-<!--  <script src="https://cdn.jsdelivr.net/npm/@microduino/tf-coco-ssd@1.0.3-alpha/dist/coco-ssd.min.js"></script> --> <!-- WORKS -->
+<!--  <script src="https://cdn.jsdelivr.net/npm/@microduino/tf-coco-ssd@1.0.3-alpha/dist/coco-ssd.min.js"></script> --> 
 
   
 <script>
@@ -95,9 +96,10 @@
   async function run_object_detection(){
 
 	  try {
-      
+      outp.innerHTML = 'Here 0';
+	
       await cocoSsd.load().then(model => {
-
+	
         // ----------------------
         // Test if it has received the image
 
@@ -114,10 +116,12 @@
 	      
         // ----------------------
 
+	      outp.innerHTML = 'Here 1';
+
         // const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
 	// Uncaught (in promise) Error: The shape of dict['image_tensor'] provided in model.execute(dict) must be [-1,-1,-1,3], but was [1,1,224,224,3]
 
-        const tensor_image_int = tf.cast(tensor_image, 'int32')
+	// const tensor_image_int = tf.cast(tensor_image, 'int32')
 	// Error: The dtype of dict['image_tensor'] provided in model.execute(dict) must be int32, but was float32
 
         // ----------------------
@@ -128,7 +132,8 @@
 	// No response
 
         // ----------------------
-
+	outp.innerHTML = 'Here 2';
+	      
         // Give image to model
         model.detect(tensor_image).then(predictions => { outp.innerHTML = predictions; }); 
 
