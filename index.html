@@ -45,18 +45,18 @@
   const selectCanvas = document.getElementById('canvasId');
 	
   selectCanvas.addEventListener("mousedown", () => {
-    ctx.moveTo(mouse.x, mouse.y);
-    ctx.beginPath();
-	  selectCanvas.addEventListener("mousemove", createlines, false);
-				       }, false);
-	
+     ctx.moveTo(mouse.x, mouse.y);
+     ctx.beginPath();
+     selectCanvas.addEventListener("mousemove", createlines, false);
   }, false);
+	
 
 
-var createlines = function(){
+  var createlines = function(){
 	     ctx.lineTo(mouse.x, mouse.y);
 	     ctx.stroke();
-				 };
+  };
+	
   // -------------------------------------------------
 	
   selectCanvas.addEventListener("mouseup", () => {
