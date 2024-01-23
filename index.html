@@ -80,36 +80,32 @@
 	  const img = new Image();
   img.onload = () => {
 ctx.drawImage(img, 0, 0, 28, 28);
-
-	// Make bounding box around lines
-	  // Load the model.
-  cocoSsd.load().then(model => {
-    // detect objects in the image.
-    model.detect(img).then(predictions => {
-	    outp = predictions;
-    });
-  });
+  
   };
-	  //img.src = selectCanvas.toDataURL('image/png');
 
 	    }, false);
   // -------------------------------------------------
 
   async function run_saved_classifer(){
  
-        // const MODEL_URL = 'https://storage.googleapis.com/tensorflowjsmodels0/model.json';
-	      const MODEL_URL = 'model.json';
-        const model = await tf.loadLayersModel(MODEL_URL);
+        // const MODEL_URL = 'model.json';
+        // const model = await tf.loadLayersModel(MODEL_URL);
           
 	const image = new Image();
 
-	image.src = await load_image_basedOn_selection();
+	//image.src = await load_image_basedOn_selection();
           
 	image.onload = async function (){
 		  
             // Draw image on canvas
             document.getElementById("canvasId").style.display = "block";
             ctx.drawImage(image, 0,0);
+
+		// Run the object detection model
+		cocoSsd.load().then(model => {
+    model.detect(img).then(predictions => { outp = predictions; });
+  });
+		
 	}
 	  
   }  // end of run_saved_classifer
