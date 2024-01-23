@@ -27,7 +27,7 @@
       canvas {border: 1px solid black;}
     </style>
   
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
 
   
@@ -86,34 +86,43 @@
 	  };
 
   }, false);
+	
   // -------------------------------------------------
 
+	let model;
+async function loadModel() {
+  model = await cocoSsd.load();
+}
+loadModel();
+	
+	  // -------------------------------------------------
+	
   async function run_object_detection(){
  
-        // const MODEL_URL = 'model.json';
+	  // const MODEL_URL = 'model.json';
         // const model = await tf.loadLayersModel(MODEL_URL);
           
-	const image = new Image();
+	// const image = new Image();
 
 	//image.src = await load_image_basedOn_selection();
 
 	  
-	image.onload = async function (){
+	// image.onload = async function (){
 		  
             // Draw image on canvas
-            document.getElementById("canvasId").style.display = "block";
-            ctx.drawImage(image, 0,0);
+            // document.getElementById("canvasId").style.display = "block";
+            // ctx.drawImage(image, 0,0);
 
-		outp.innerHTML = 'Before running object detection';
+		// outp.innerHTML = 'Before running object detection';
 
 		// Run the object detection model
-		cocoSsd.load().then(model => {
-    model.detect(image).then(predictions => { outp.innerHTML = predictions; });
-  });
+		//cocoSsd.load().then(model => {
+    // model.detect(image).then(predictions => { outp.innerHTML = predictions; }); });
 		
-	}
+// OR
+	const predictions = await model.detect(selectCanvas);
 	  
-  }  // end of run_saved_classifer
+  }  // end of run_object_detection
 
 	
 
