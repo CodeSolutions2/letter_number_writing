@@ -130,14 +130,17 @@
 
 	const image = new Image();
 	image.src = canvasElement.toDataURL();  // This gives the url to the image drawn on the canvas
-	image.onload = () => {
+	image.onload = async () => {
 		ctx.beginPath();
 		ctx.strokeStyle = "red";  // color of line
 		ctx.drawImage(image, 0, 0, 224, 224);
 		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
 outp.innerHTML = tf.max(tensor_image);
+
+		// model.detect(image).then(predictions => { outp.innerHTML = 'Here1: ' + predictions; }); 
+		// OR
+		      await model.detect(image).then(predictions => {for(var i = 0; i<predictions.length; i++){outp.innerHTML += "<br/>" + predictions[i].bbox + " : " + predictions[i].class + " : " + predictions[i].score;} });
 		
-		      model.detect(image).then(predictions => { outp.innerHTML = 'Here1: ' + predictions; }); 
 	  };
         // ----------------------
 
