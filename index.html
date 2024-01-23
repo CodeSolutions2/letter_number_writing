@@ -103,7 +103,7 @@ ctx.drawImage(img, 0, 0, 28, 28);
 
 		// Run the object detection model
 		cocoSsd.load().then(model => {
-    model.detect(img).then(predictions => { outp = predictions; });
+    model.detect(image).then(predictions => { outp.innerHTML = predictions; });
   });
 		
 	}
