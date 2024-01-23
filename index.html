@@ -94,6 +94,12 @@
   }, false);
 
   // -------------------------------------------------
+
+
+
+
+
+
 	
   async function run_object_detection(){
 
@@ -121,8 +127,11 @@
         // const tensor_image = tf.browser.fromPixels(canvasElement); // This is size 224,224,3
 
 	// OR
-	img.onload = () => {
-		      model.detect(img).then(predictions => { outp.innerHTML = predictions; }); 
+
+	const image = new Image();
+	image.src = canvasElement.toDataURL();
+	image.onload = () => {
+		      model.detect(image).then(predictions => { outp.innerHTML = predictions; }); 
 	  };
         // ----------------------
 
@@ -145,7 +154,8 @@
         // model.detect(image).then(predictions => { outp.innerHTML = predictions; }); 
 
         // ----------------------
-	});
+	});  // end of await cocoSsd.load
+		  
 	// -------------------------------------------------
 		  
 	// OR
