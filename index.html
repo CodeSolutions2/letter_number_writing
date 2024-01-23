@@ -51,13 +51,12 @@
 
   // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX
   // eventlistener for mousedown
-  const selectCanvas = document.getElementById('canvasId');
 	
-  selectCanvas.addEventListener("mousedown", (e) => {
+  canvasElement.addEventListener("mousedown", (e) => {
      ctx.lineTo(e.offsetX, e.offsetY);
      ctx.lineWidth = 10;  // thickness of line
      ctx.beginPath();
-     selectCanvas.addEventListener("mousemove", createlines, false);
+     canvasElement.addEventListener("mousemove", createlines, false);
   }, false);
 	
 
@@ -83,9 +82,9 @@
 	
   // -------------------------------------------------
 	
-  selectCanvas.addEventListener("mouseup", () => {
+  canvasElement.addEventListener("mouseup", () => {
 
-	  selectCanvas.removeEventListener('mousemove', createlines, false);
+	  canvasElement.removeEventListener('mousemove', createlines, false);
 
 	  const img = new Image();
   	  img.onload = () => {
@@ -99,7 +98,7 @@
   async function run_object_detection(){
 
 	  try {
-      outp.innerHTML = selectCanvas.toDataURL();
+      outp.innerHTML = canvasElement.toDataURL();
 
 
 
@@ -111,9 +110,11 @@
         // Test if it has received the image
 
         const image = new Image();
-        image.src = selectCanvas.toDataURL();
+        image.src = canvasElement.toDataURL();
         ctx.drawImage(image, 0, 0, 224, 224);
-        var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
+        // var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
+	
+	// Error: Requested texture size [0x0] is invalid.
 
         // OR
 	
@@ -131,20 +132,17 @@
 
         // ----------------------
 	      
-        outp.innerHTML = tf.max(tensor_image);
+        // outp.innerHTML = tf.max(tensor_image);
 	      
 	// outp.innerHTML = tf.max(tensor_image_int);
 	// No response
 
         // ----------------------
+	      
 	outp.innerHTML = 'Here 2';
 	      
         // Give image to model
         model.detect(image).then(predictions => { outp.innerHTML = predictions; }); 
-
-	// OR
-
-	// model.detect(selectCanvas).then(predictions => { outp.innerHTML = predictions; });
 
         // ----------------------
 	});
