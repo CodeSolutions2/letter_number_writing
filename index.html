@@ -51,7 +51,7 @@
   const selectCanvas = document.getElementById('canvasId');
 	
   selectCanvas.addEventListener("mousedown", (e) => {
-     ctx.moveTo(e.screenX, e.screenY);
+     ctx.moveTo(e.clientX, e.clientY-20);
      ctx.beginPath();
      selectCanvas.addEventListener("mousemove", createlines, false);
   }, false);
@@ -59,7 +59,7 @@
 
 
   var createlines = function(e){
-	     ctx.lineTo(e.screenX, e.screenY);
+	     ctx.lineTo(e.clientX, e.clientY-20);
 	     ctx.stroke();
   };
 	
