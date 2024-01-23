@@ -84,47 +84,54 @@
 
 	  const img = new Image();
   	  img.onload = () => {
-	  ctx.drawImage(img, 0, 0, 28, 28);
+	  ctx.drawImage(img, 0, 0, 224, 224);
 	  };
 
   }, false);
-	
-  // -------------------------------------------------
 
-  // let model;
-  // async function loadModel() {
-	//  model = await cocoSsd.load();
-  //}
-  // loadModel();
-	
-// -------------------------------------------------
+  // -------------------------------------------------
 	
   async function run_object_detection(){
- 
-	  // const MODEL_URL = 'model.json';
-        // const model = await tf.loadLayersModel(MODEL_URL);
-          
-	// const image = new Image();
 
-	//image.src = await load_image_basedOn_selection();
+	  try {
+      
+      await cocoSsd.load().then(model => {
 
-	  
-	// image.onload = async function (){
-		  
-            // Draw image on canvas
-            // document.getElementById("canvasId").style.display = "block";
-            // ctx.drawImage(image, 0,0);
+        // ----------------------
+        // Test if it has received the image
 
-	outp.innerHTML = 'Before running object detection';
+        // const image = new Image();
+        // image.src = 
+        // ctx.drawImage(image, 0,0);
+        // var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
 
-		// Run the object detection model
-		await cocoSsd.load().then(model => { model.detect(image).then(predictions => { outp.innerHTML = predictions; }); });
-		
-	  // OR
-	  // const predictions = await model.detect(selectCanvas).then(predictions => { outp.innerHTML = predictions; });
+        // OR
+	
+        const tensor_image = tf.browser.fromPixels(canvasElement); // This is size 224,224,3
+        // ----------------------
 
-	  
-  }  // end of run_object_detection
+        const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
+
+        const image_4D_int = tf.cast(image_4D, 'int32')
+
+        // ----------------------
+
+        // document.getElementById("outData").innerHTML = tf.max(tensor_image);
+
+        // Give image to model
+        model.detect(image_4D_int).then(predictions => { outp.innerHTML = predictions; }); 
+      
+      });
+
+    } catch (error) {
+      outp.innerHTML = error
+    }
+
+  }
+
+  // -------------------------------------------------
+
+
 
 	
 
