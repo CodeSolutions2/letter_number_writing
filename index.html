@@ -40,20 +40,26 @@
   const outp = document.getElementById('output');
 
   // -------------------------------------------------
+
+// let mouse = new MouseEvent("click", {
+//     bubbles: true,
+//     cancelable: true,
+//     view: window,
+//   });
 	
   // eventlistener for mousedown
   const selectCanvas = document.getElementById('canvasId');
 	
-  selectCanvas.addEventListener("mousedown", () => {
-     ctx.moveTo(mouse.x, mouse.y);
+  selectCanvas.addEventListener("mousedown", (e) => {
+     ctx.moveTo(e.clientX, e.clientY);
      ctx.beginPath();
      selectCanvas.addEventListener("mousemove", createlines, false);
   }, false);
 	
 
 
-  var createlines = function(){
-	     ctx.lineTo(mouse.x, mouse.y);
+  var createlines = function(e){
+	     ctx.lineTo(e.clientX, e.clientY);
 	     ctx.stroke();
   };
 	
