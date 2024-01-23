@@ -28,7 +28,7 @@
     </style>
   
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
-	    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
 
   
 <script>
@@ -42,12 +42,14 @@
 
   // -------------------------------------------------
 
-	// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX
+  // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX
   // eventlistener for mousedown
   const selectCanvas = document.getElementById('canvasId');
 	
   selectCanvas.addEventListener("mousedown", (e) => {
-     ctx.moveTo(e.pageX, e.pageY);
+     // ctx.moveTo(e.pageX, e.pageY);
+     ctx.lineTo(e.clientX-e.offsetX, e.clientY-e.offsetY);
+     ctx.lineWidth = 15;
      ctx.beginPath();
      selectCanvas.addEventListener("mousemove", createlines, false);
   }, false);
@@ -58,17 +60,18 @@
 
 	  // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageX
 	  // returns the X (horizontal) coordinate (in pixels) at which the mouse was clicked, relative to the left edge of the entire document
-	     ctx.lineTo(e.pageX, e.pageY);
+	  // ctx.lineTo(e.pageX-e.offsetX, e.pageY-e.offsetY);
 	  // OR
 	  // the horizontal/vertical coordinate (offset) of the mouse pointer in screen coordinates. (not correct)
 	  // ctx.lineTo(e.screenX, e.screenY);
 	  // OR
 	  // the horizontal coordinate within the application's viewport at which the event occurred (as opposed to the coordinate within the page). (close)
-	  // ctx.lineTo(e.clientX, e.clientY);
+	  ctx.lineTo(e.clientX-e.offsetX, e.clientY-e.offsetY);
 	  
-	     ctx.stroke();
+	  ctx.strokeStyle = "blue";
+	  ctx.stroke();
 	  //ctx.fillStyle = "rgb(200 0 0)";
-	  ctx.fillStyle = "rgb(0 0 200 / 50%)";
+	  //ctx.fillStyle = "rgb(0 0 200 / 50%)";
   };
 	
   // -------------------------------------------------
