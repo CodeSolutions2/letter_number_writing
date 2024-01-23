@@ -89,13 +89,13 @@
 	
   // -------------------------------------------------
 
-	let model;
-// async function loadModel() {
- //  model = await cocoSsd.load();
-// }
-// loadModel();
+  let model;
+  async function loadModel() {
+	  model = await cocoSsd.load();
+  }
+  loadModel();
 	
-	  // -------------------------------------------------
+// -------------------------------------------------
 	
   async function run_object_detection(){
  
@@ -119,10 +119,9 @@
 		//cocoSsd.load().then(model => {
     // model.detect(image).then(predictions => { outp.innerHTML = predictions; }); });
 		
-// OR
-	// const predictions = await model.detect(selectCanvas);
+	  // OR
+	  const predictions = await model.detect(selectCanvas).then(predictions => { outp.innerHTML = predictions; }); });
 
-	//   outp.innerHTML = predictions;
 	  
   }  // end of run_object_detection
 
