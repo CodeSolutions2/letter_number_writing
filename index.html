@@ -131,15 +131,40 @@
 	const image = new Image();
 	image.src = canvasElement.toDataURL();  // This gives the url to the image drawn on the canvas
 	image.onload = async () => {
+		ctx.drawImage(image, 0, 0, 224, 224);
 		ctx.beginPath();
 		ctx.strokeStyle = "red";  // color of line
-		ctx.drawImage(image, 0, 0, 224, 224);
+		
 		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
 outp.innerHTML = tf.max(tensor_image);
 
 		// model.detect(image).then(predictions => { outp.innerHTML = 'Here1: ' + predictions; }); 
 		// OR
-		      await model.detect(image).then(predictions => {for(var i = 0; i<predictions.length; i++){outp.innerHTML += "<br/>" + predictions[i].bbox + " : " + predictions[i].class + " : " + predictions[i].score;} });
+		// await model.detect(image).then(predictions => {for(var i = 0; i<predictions.length; i++){outp.innerHTML += "<br/>" + predictions[i].bbox + " : " + predictions[i].class + " : " + predictions[i].score;} });
+
+
+		// OR
+		await model.detect(image).then(predictions => { predictions.forEach(prediction => {
+      ctx.beginPath();
+      ctx.lineWidth = '2';
+      ctx.strokeStyle = 'red';
+      ctx.fillStyle = 'red';
+      ctx.rect(
+        prediction.bbox[0],
+        prediction.bbox[1],
+        prediction.bbox[2],
+        prediction.bbox[3]
+      );
+      ctx.stroke();
+      ctx.fillText(
+        `${prediction.class} (${Math.round(prediction.score * 100)}%)`,
+        prediction.bbox[0],
+        prediction.bbox[1] > 10 ? prediction.bbox[1] - 5 : 10
+      );
+    }); });
+
+
+
 		
 	  };
         // ----------------------
