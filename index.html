@@ -101,14 +101,14 @@
         // ----------------------
         // Test if it has received the image
 
-        const image = new Image();
+        // const image = new Image();
         // image.src = 
-        ctx.drawImage(image, 0,0, 224, 224);
-        var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
+        // ctx.drawImage(image, 0,0, 224, 224);
+        // var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
 
         // OR
 	
-        // const tensor_image = tf.browser.fromPixels(canvasElement); // This is size 224,224,3
+        const tensor_image = tf.browser.fromPixels(canvasElement); // This is size 224,224,3
         // ----------------------
 
         //const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
