@@ -86,16 +86,24 @@
      ctx.stroke();
 
      if (e.offsetX > maxX) {
-        maxX = e.offsetX;     
+        maxX = e.offsetX;
+     } else {
+        maxX = maxX; 
      }
      if (e.offsetY > maxY) {
         maxY = e.offsetY;
+     } else {
+        maxY = maxY; 
      }
      if (e.offsetX < minX) {
         minX = e.offsetX;
+     } else {
+        minX = minX; 
      }
      if (e.offsetY < minY) {
         minY = e.offsetY;
+     } else {
+        minY = minY; 
      }
   };
 	
