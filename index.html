@@ -229,15 +229,15 @@
 			const result = model.predict(resizedTensor_grayscale_4D); 
 			outp.innerHTML += 'result= ' + result + '<br/>';
 			outp.innerHTML += 'result.shape= ' + result.shape + '<br/>';
-			var getmax = 0;
-			for (var i = 0; i<result.length; i++){
-				if (result[i] > getmax){
-					getmax = result[i];
-				}
-			} 
+			// var getmax = 0;
+			// for (var i = 0; i<result.length; i++){
+				// if (result[i] > getmax){
+				// 	getmax = result[i];
+				// }
+			// } 
 			outp.innerHTML += 'result.argMax= ' + tf.argMax(result) + '<br/>';
 			outp.innerHTML = 'Sum value of result: ' + tf.sum(result) + '<br/>';
-			outp.innerHTML += 'getmax= ' + getmax + '<br/>';
+			// outp.innerHTML += 'getmax= ' + getmax + '<br/>';
 			
 		} // end of for
 	  
