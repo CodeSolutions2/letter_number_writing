@@ -211,7 +211,7 @@
 		const newSize = [28, 28];
 		var resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);  // initialize variable
 		var resizedTensor_grayscale = resizedTensor.mean(3); // This is size 28,28,1
-		var resizedTensor_grayscale_4D = resizedTensor_grayscale.expandDims(0); // This is size 1,28,28,1
+		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // This is size 1,28,28,1
 		
 		for (var i = 0; i<boundingbox_vec.length; i++){
 			// select each bounding box and make a tensor
@@ -221,7 +221,7 @@
 			resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);
 
 			resizedTensor_grayscale = resizedTensor.mean(3);
-			resizedTensor_grayscale_4D = resizedTensor_grayscale.expandDims(0);
+			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);
 			
 			// To confirm, would need to: convert the tensor to Image, then create a canvas, then drawImage to canvas
 			outp.innerHTML += 'resizedTensor_grayscale max= ' + tf.max(resizedTensor_grayscale) + '<br/>' + 'resizedTensor_grayscale_4D.shape = ' + resizedTensor_grayscale_4D.shape + '<br/>';
