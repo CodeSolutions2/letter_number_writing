@@ -63,17 +63,19 @@
      canvasElement.addEventListener("mousemove", createlines, false);
 
      if (e.offsetX > maxX) {
-        maxX = e.offsetX;
+        minX = maxX;
+        maxX = e.offsetX;     
      }
      if (e.offsetY > maxY) {
+        minY = maxY;
         maxY = e.offsetY;
      }
-     if (e.offsetX < minX) {
-        minX = e.offsetX;
-     }
-     if (e.offsetY < minY) {
-        minY = e.offsetY;
-     }
+     // if (e.offsetX < minX) {
+     //    minX = e.offsetX;
+     // }
+     // if (e.offsetY < minY) {
+     //    minY = e.offsetY;
+     // }
 			 
   }, false);
 	
