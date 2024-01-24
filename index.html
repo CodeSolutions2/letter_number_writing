@@ -185,12 +185,9 @@
 	  
 	image.onload = async () => {
 		ctx.drawImage(image, 0, 0, 224, 224);
-		// ctx.beginPath(); // did not work
-		// ctx.strokeStyle = "red";  // color of line  // did not work
 
-		outp.innerHTML += 'here0';
 		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
-		outp.innerHTML = tf.max(tensor_image);
+		outp.innerHTML = 'Max value of entire image: ' + tf.max(tensor_image) + '<br/>';
 
 		const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
 
@@ -215,7 +212,7 @@
 		
 		for (var i = 0; i<boundingbox_vec.length; i++){
 			// select each bounding box and make a tensor
-			outp.innerHTML += 'boundingbox_vec ' + i;
+			outp.innerHTML += 'boundingbox_vec ' + i + '<br/>';
 				
 			boxes = tf.tensor2d([boundingbox_vec[i]], [1, 4]);
 			resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);
@@ -231,7 +228,7 @@
 			const result = model.predict(resizedTensor_grayscale_4D); 
 			outp.innerHTML += 'result= ' + result + '<br/>';
 			outp.innerHTML += 'result.shape= ' + result.shape + '<br/>';
-			outp.innerHTML += 'result.argMax= ' + result.argMax() + '<br/>';
+			outp.innerHTML += 'result.argMax= ' + result.argMax().print(); + '<br/>';
 			
 		} // end of for
 	  
