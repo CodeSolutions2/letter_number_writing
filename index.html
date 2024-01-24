@@ -110,7 +110,7 @@
      };
 
      outp.innerHTML = "";
-     outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY + " : " +  "minX=" + minX + " : " +  "minY=" + minY;
+     outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY + " : " +  "minX=" + minX + " : " +  "minY=" + minY + "<br/>";
 
      // Put each box in a vector: [x_start_topleft, y_start_top_left, width, height]
      //The rectangle's width. Positive values are to the right, and negative to the left.
@@ -121,6 +121,7 @@
 
 	
      // values accumulate in boundingbox_vec
+     outp.innerHTML += "boundingbox_vec:" + "<br/>";
      for(var i = 0; i<boundingbox_vec.length; i++){
         for(var j = 0; j<4; j++){
           outp.innerHTML += boundingbox_vec[i][j] + ",";
