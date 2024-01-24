@@ -229,7 +229,9 @@
 			// -----------------------------------------------
 			// Give image to model
 			const result = model.predict(resizedTensor_grayscale_4D); 
-			outp.innerHTML += result.argMax();
+			outp.innerHTML += 'result= ' + result + '<br/>';
+			outp.innerHTML += 'result.shape= ' + result.shape + '<br/>';
+			outp.innerHTML += 'result.argMax= ' + result.argMax() + '<br/>';
 			
 		} // end of for
 	  
