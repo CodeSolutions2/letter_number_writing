@@ -45,13 +45,12 @@
 
   // -------------------------------------------------
 
-	  var maxX = 0;
+  var maxX = 0;
   var maxY = 0;
   var minX = 0;
   var minY = 0;
-	var boundingbox_vec = [];
+  var boundingbox_vec = [];
 
-	
   // -------------------------------------------------
 	
   // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX
@@ -110,23 +109,23 @@
      ctx.drawImage(img, 0, 0, 224, 224);
      };
 
-     outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY + " : " +  "minX=" + minX + " : " +  "minY=" + minY;
+     // outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY + " : " +  "minX=" + minX + " : " +  "minY=" + minY;
 
      // Put each box in a vector: [x_start_topleft, y_start_top_left, width, height]
      //The rectangle's width. Positive values are to the right, and negative to the left.
      //width = maxX - minX;
      // The rectangle's height. Positive values are down, and negative are up.
      //height = maxY - minY;
-     boundingbox_vec.push([maxX, minY, maxX - minX, maxY - minY])
+     boundingbox_vec.push([maxX, maxY, maxX - minX, minY-maxY])
 
 	
-	  outp.innerHTML += "test to see if variables are accumulating in boundingbox_vec:  boundingbox_vec.length=" + boundingbox_vec.length;
-	  // for(var i = 0; i<boundingbox_vec.length; i++){
-	  //   for(var j = 0; i<4; i++){
-	 //    	outp.innerHTML += boundingbox_vec[i][j] + ",";
-	 //    }
-	  //   outp.innerHTML += "<br/>";
-     //}
+     //outp.innerHTML += "test to see if variables are accumulating in boundingbox_vec:  boundingbox_vec.length=" + boundingbox_vec.length;
+     for(var i = 0; i<boundingbox_vec.length; i++){
+        for(var j = 0; j<4; j++){
+          outp.innerHTML += boundingbox_vec[i][j] + ",";
+        }	
+        outp.innerHTML += "<br/>";
+     }
 	  
      ctx.beginPath();
       ctx.lineWidth = '2';
