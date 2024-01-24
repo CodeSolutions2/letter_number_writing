@@ -20,7 +20,8 @@
     <div>
 
       <div style="width:100%;height:100%;position:absolute;vertical-align:middle;text-align:left;">
-        <button id="run_object_detection" onclick="run_object_detection()" style="display:block">run_object_detection</button>
+        <button id="run_object_detection" onclick="run_object_detection()" style="display:block">run_object_detection</button>&nbsp;&nbsp;&nbsp;
+        <button id="cut_images_using_boundingboxes" onclick="cut_images_using_boundingboxes()" style="display:block">cut_images_using_boundingboxes</button>
     <div>
 
     <div id="output" style="font-family:courier;font-size:24px;height:300px"></div>
@@ -172,6 +173,61 @@
   }, false);
 
   // -------------------------------------------------
+
+  async function cut_images_using_boundingboxes() {
+
+	  const MODEL_URL = 'model.json';
+        const model = await tf.loadLayersModel(MODEL_URL);
+	  
+	  // Obtain image from canvas
+	  const image = new Image();
+	image.src = canvasElement.toDataURL();  // This gives the url to the image drawn on the canvas
+	image.onload = async () => {
+		ctx.drawImage(image, 0, 0, 224, 224);
+		ctx.beginPath();
+		ctx.strokeStyle = "red";  // color of line
+		
+		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
+		outp.innerHTML = tf.max(tensor_image);
+
+		const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
+
+		// const image_4D_float = tf.cast(image_4D, 'float32')
+		
+		// Make image values from 0 to 1
+		// const b = tf.scalar(255);
+		// const image_4D_scaled0to1 = image_4D.div(b)
+		const shape_out = image_4D.shape;
+		
+		// Ensure that tensor is 4d
+		const x = tf.reshape(tensor_image, [1, shape_out[1], shape_out[2], shape_out[3]])
+
+		// -----------------------------------------------
+		var boxes = tf.tensor2d([boundingbox_vec[0]], [1, 4]);  // initialize variable
+		const boxIndices = tf.tensor1d([0], 'int32');
+		const newSize = [28, 28];
+		var resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);  // initialize variable
+		
+		for (var i = 0; i<boundingbox_vec.length; i++){
+			// select each bounding box and make a tensor
+			boxes = tf.tensor2d([boundingbox_vec[i]], [1, 4]);
+			resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);
+	
+		// To confirm, would need to: convert the tensor to Image, then create a canvas, then drawImage to canvas
+
+		// -----------------------------------------------
+		// Give image to model
+		const result = model.predict(resizedTensor); 
+		outp.innerHTML += result.argMax();
+			
+		} // end of for
+	  
+
+	}  // end of image.onload
+  }
+	
+  // -------------------------------------------------
+
 
   async function run_object_detection(){
 
