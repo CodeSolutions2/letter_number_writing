@@ -48,8 +48,8 @@
   // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX
   // eventlistener for mousedown
 
-	const maxX = 0;
-	const maxY = 0;
+	var maxX = 0;
+	var maxY = 0;
 	
   canvasElement.addEventListener("mousedown", (e) => {
      ctx.lineTo(e.offsetX, e.offsetY);
@@ -57,11 +57,11 @@
      ctx.beginPath();
      canvasElement.addEventListener("mousemove", createlines, false);
 
-     if (maxX != 0 && e.offsetX > maxX) {
+     if (e.offsetX > maxX) {
         maxX = e.offsetX;
      }
 
-     if (maxY != 0 && e.offsetY > maxY) {
+     if (e.offsetY > maxY) {
         maxY = e.offsetY;
      }
 			 
@@ -99,7 +99,7 @@
 	  ctx.drawImage(img, 0, 0, 224, 224);
 	  };
 
-	  outp.innerHTML += "maxX<br/>" + maxX + " : " +  "maxY<br/>" + maxY;
+	  outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY;
 	   maxX = 0;
 	 maxY = 0;
 	  
@@ -116,7 +116,8 @@
   async function run_object_detection(){
 
 	  try {
-      outp.innerHTML = canvasElement.toDataURL();
+      
+		  // outp.innerHTML = canvasElement.toDataURL();
 
 
 
@@ -148,7 +149,7 @@
 		ctx.strokeStyle = "red";  // color of line
 		
 		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
-//outp.innerHTML = tf.max(tensor_image);
+		outp.innerHTML = tf.max(tensor_image);
 
 		// model.detect(image).then(predictions => { outp.innerHTML = 'Here1: ' + predictions; }); 
 		// OR
