@@ -45,11 +45,17 @@
 
   // -------------------------------------------------
 
+  var maxX = 0;
+  var maxY = 0;
+  var minX = 0;
+  var minY = 0;
+
+  var boundingbox_vec = [];
+	
+  // -------------------------------------------------
+	
   // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX
   // eventlistener for mousedown
-
-	var maxX = 0;
-	var maxY = 0;
 	
   canvasElement.addEventListener("mousedown", (e) => {
      ctx.lineTo(e.offsetX, e.offsetY);
@@ -60,9 +66,14 @@
      if (e.offsetX > maxX) {
         maxX = e.offsetX;
      }
-
      if (e.offsetY > maxY) {
         maxY = e.offsetY;
+     }
+     if (e.offsetX < minX) {
+        minX = e.offsetX;
+     }
+     if (e.offsetY < minY) {
+        minY = e.offsetY;
      }
 			 
   }, false);
@@ -71,55 +82,70 @@
 
   var createlines = function(e){
 
-	  // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageX
-	  // returns the X (horizontal) coordinate (in pixels) at which the mouse was clicked, relative to the left edge of the entire document (close)
-	  // ctx.lineTo(e.pageX-e.offsetX, e.pageY-e.offsetY);
-	  // OR
-	  // the horizontal/vertical coordinate (offset) of the mouse pointer in screen coordinates. (not correct)
-	  // ctx.lineTo(e.screenX, e.screenY);
-	  // OR
-	  // the horizontal coordinate within the application's viewport at which the event occurred (as opposed to the coordinate within the page). (close)
-	  // ctx.lineTo(e.clientX, e.clientY);
-	  // OR
-	  // provides the offset in the X coordinate of the mouse pointer between that event and the padding edge of the target node. (CORRECT!!)
-	  ctx.lineTo(e.offsetX, e.offsetY);
+     // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageX
+     // returns the X (horizontal) coordinate (in pixels) at which the mouse was clicked, relative to the left edge of the entire document (close)
+     // ctx.lineTo(e.pageX-e.offsetX, e.pageY-e.offsetY);
+     // OR
+     // the horizontal/vertical coordinate (offset) of the mouse pointer in screen coordinates. (not correct)
+     // ctx.lineTo(e.screenX, e.screenY);
+     // OR
+     // the horizontal coordinate within the application's viewport at which the event occurred (as opposed to the coordinate within the page). (close)
+     // ctx.lineTo(e.clientX, e.clientY);
+     // OR
+     // provides the offset in the X coordinate of the mouse pointer between that event and the padding edge of the target node. (CORRECT!!)
+     ctx.lineTo(e.offsetX, e.offsetY);
 	  
-	  ctx.strokeStyle = "green";  // color of line
-	  ctx.stroke();
+     ctx.strokeStyle = "green";  // color of line
+     ctx.stroke();
   };
 	
   // -------------------------------------------------
 	
   canvasElement.addEventListener("mouseup", () => {
 
-	  canvasElement.removeEventListener('mousemove', createlines, false);
+     canvasElement.removeEventListener('mousemove', createlines, false);
 
-	  const img = new Image();
-  	  img.onload = () => {
-	  ctx.drawImage(img, 0, 0, 224, 224);
-	  };
+     const img = new Image();
+     img.onload = () => {
+     ctx.drawImage(img, 0, 0, 224, 224);
+     };
 
-	  outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY;
-	   maxX = 0;
-	 maxY = 0;
+     // outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY + " : " +  "minX=" + minX + " : " +  "minY=" + minY;
+
+     // Put each box in a vector: [x_start_topleft, y_start_top_left, width, height]
+     //The rectangle's width. Positive values are to the right, and negative to the left.
+     //width = maxX - minX;
+     // The rectangle's height. Positive values are down, and negative are up.
+     //height = maxY - minY;
+     boundingbox_vec.push([maxX, minY, maxX - minX, maxY - minY])
+     for(var i = 0; i<boundingbox_vec.length; i++){
+	     for(var j = 0; i<4; i++){
+	     	outp.innerHTML = boundingbox_vec[i][j] + ",";
+	     }
+	     outp.innerHTML = "<br/>";
+     }
+	  
+     ctx.beginPath();
+      ctx.lineWidth = '2';
+      ctx.strokeStyle = 'red';
+      ctx.fillStyle = 'red';
+      ctx.rect(maxX, minY, maxX - minX, maxY - minY);
+     ctx.stroke();
+
+     maxX = 0;
+     maxY = 0;
+     minX = 0;
+     minY = 0;
 	  
   }, false);
 
   // -------------------------------------------------
 
-
-
-
-
-
-	
   async function run_object_detection(){
 
-	  try {
+     try {
       
-		  // outp.innerHTML = canvasElement.toDataURL();
-
-
+     // outp.innerHTML = canvasElement.toDataURL();
 
       // -------------------------------------------------
       // Way 0
