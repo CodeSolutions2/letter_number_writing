@@ -45,12 +45,13 @@
 
   // -------------------------------------------------
 
+window.addEventListener("load", (event) => {
   var maxX = 0;
   var maxY = 0;
   var minX = 0;
   var minY = 0;
-
   var boundingbox_vec = [];
+});
 	
   // -------------------------------------------------
 	
@@ -120,9 +121,9 @@
      boundingbox_vec.push([maxX, minY, maxX - minX, maxY - minY])
      for(var i = 0; i<boundingbox_vec.length; i++){
 	     for(var j = 0; i<4; i++){
-	     	outp.innerHTML = boundingbox_vec[i][j] + ",";
+	     	outp.innerHTML += boundingbox_vec[i][j] + ",";
 	     }
-	     outp.innerHTML = "<br/>";
+	     outp.innerHTML += "<br/>";
      }
 	  
      ctx.beginPath();
