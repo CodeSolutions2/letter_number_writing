@@ -84,7 +84,7 @@
      ctx.strokeStyle = "green";  // color of line
      ctx.stroke();
 
-	  if (e.offsetX > maxX) {
+     if (e.offsetX > maxX) {
         maxX = e.offsetX;     
      }
      if (e.offsetY > maxY) {
@@ -134,7 +134,7 @@
      ctx.strokeStyle = 'red';
      ctx.fillStyle = 'red';
      // ctx.rect(maxX, minY, maxX - minX, maxY - minY);
-     ctx.rect(maxX, maxY, maxX - minX, minY-maxY);
+     ctx.rect(minX, maxY, maxX - minX, minY-maxY);
      ctx.stroke();
 
      maxX = 0;
