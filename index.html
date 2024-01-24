@@ -61,19 +61,6 @@
      ctx.lineWidth = 10;  // thickness of line
      ctx.beginPath();
      canvasElement.addEventListener("mousemove", createlines, false);
-
-     if (e.offsetX > maxX) {
-        maxX = e.offsetX;     
-     }
-     if (e.offsetY > maxY) {
-        maxY = e.offsetY;
-     }
-     if (e.offsetX < minX) {
-        minX = e.offsetX;
-     }
-     if (e.offsetY < minY) {
-        minY = e.offsetY;
-     }
 			 
   }, false);
 	
@@ -96,6 +83,19 @@
 	  
      ctx.strokeStyle = "green";  // color of line
      ctx.stroke();
+
+	  if (e.offsetX > maxX) {
+        maxX = e.offsetX;     
+     }
+     if (e.offsetY > maxY) {
+        maxY = e.offsetY;
+     }
+     if (e.offsetX < minX) {
+        minX = e.offsetX;
+     }
+     if (e.offsetY < minY) {
+        minY = e.offsetY;
+     }
   };
 	
   // -------------------------------------------------
