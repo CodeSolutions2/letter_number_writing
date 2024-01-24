@@ -49,6 +49,8 @@
   var maxY = 0;
   var minX = 255;
   var minY = 255;
+  var width = maxX-minX;
+  var height = minY-maxY;
   var boundingbox_vec = [];
   var padboundary = 20;
 
@@ -122,13 +124,25 @@
      outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY + " : " +  "minX=" + minX + " : " +  "minY=" + minY + "<br/>";
 
      // Put each box in a vector: [x_start_topleft, y_start_top_left, width, height]
-     //The rectangle's width. Positive values are to the right, and negative to the left.
-     //width = maxX - minX;
-     // The rectangle's height. Positive values are down, and negative are up.
-     //height = maxY - minY;
-     boundingbox_vec.push([maxX, maxY, maxX - minX, minY-maxY])
+     //The rectangle's width. Positive values are to the right, and negative to the left.  
+     width = maxX-minX;
 
-	
+     // The rectangle's height. Positive values are down, and negative are up.
+     height = minY-maxY; 
+     if (width < 0){
+        width = width - padboundary;
+     } else {
+        width = width + padboundary;
+     }
+
+     if (height < 0){
+        height = height - padboundary;
+     } else {
+        height = height + padboundary;
+     }
+     
+     boundingbox_vec.push([minX, maxY, width, height])
+
      // values accumulate in boundingbox_vec
      outp.innerHTML += "boundingbox_vec:" + "<br/>";
      for(var i = 0; i<boundingbox_vec.length; i++){
@@ -142,13 +156,13 @@
      ctx.lineWidth = '2';
      ctx.strokeStyle = 'red';
      ctx.fillStyle = 'red';
-     ctx.rect(minX, maxY, maxX-minX, minY-maxY);
+     ctx.rect(minX, maxY, width, height);
      ctx.stroke();
 
      maxX = 0;
      maxY = 0;
-     minX = 0;
-     minY = 0;
+     minX = 255;
+     minY = 255;
 	  
   }, false);
 
