@@ -200,8 +200,9 @@
 		const shape_out = image_4D.shape;
 		
 		// Ensure that tensor is 4d
-		const x = tf.reshape(tensor_image, [1, shape_out[1], shape_out[2], shape_out[3]])
-
+		const x = tf.reshape(image_4D, [1, shape_out[1], shape_out[2], shape_out[3]])
+outp.innerHTML += 'here0';
+		
 		// -----------------------------------------------
 		var boxes = tf.tensor2d([boundingbox_vec[0]], [1, 4]);  // initialize variable
 		const boxIndices = tf.tensor1d([0], 'int32');
@@ -210,15 +211,17 @@
 		
 		for (var i = 0; i<boundingbox_vec.length; i++){
 			// select each bounding box and make a tensor
+			outp.innerHTML += 'boundingbox_vec ' + i;
+				
 			boxes = tf.tensor2d([boundingbox_vec[i]], [1, 4]);
 			resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);
 	
-		// To confirm, would need to: convert the tensor to Image, then create a canvas, then drawImage to canvas
+			// To confirm, would need to: convert the tensor to Image, then create a canvas, then drawImage to canvas
 
-		// -----------------------------------------------
-		// Give image to model
-		const result = model.predict(resizedTensor); 
-		outp.innerHTML += result.argMax();
+			// -----------------------------------------------
+			// Give image to model
+			const result = model.predict(resizedTensor); 
+			outp.innerHTML += result.argMax();
 			
 		} // end of for
 	  
