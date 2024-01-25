@@ -11,22 +11,22 @@
 <!-- https://js.tensorflow.org/api/1.0.0/ -->
 <!-- https://www.jsdelivr.com/?query=author%3A%20tensorflow&page=1 -->
 	
-   <h2 id="select_model" style='text-align: left; display:none'>Write a captial letter or number in the box, click the button to classify</h2>
+<h2 id="select_model" style='text-align: left; display:none'>Write a captial letter or number in the box, click the button to classify</h2>
    
 <!-- Once image and model are selected, make image appear in canvas and run model -->
-   <canvas id="canvasId" width="224" height="224" style="display:block"></canvas>
+<canvas id="canvasId" width="224" height="224" style="display:block"></canvas>
 
-      <div style="width:100%;height:100%;position:absolute;vertical-align:middle;text-align:left;">
-        <button id="run_object_detection" onclick="run_object_detection()" style="display:block">run_object_detection</button>&nbsp;&nbsp;&nbsp;
-        <button id="cut_images_using_boundingboxes" onclick="cut_images_using_boundingboxes()" style="display:block">cut_images_using_boundingboxes</button>
-    <div>
+<br><br>
 
-    <div id="output" style="font-family:courier;font-size:24px;height:300px"></div>
+<div style="width:100%;height:100%;position:absolute;vertical-align:middle;text-align:left;">
+<button id="run_object_detection" onclick="run_object_detection()" style="display:block">run_object_detection</button>&nbsp;&nbsp;&nbsp;
+<button id="cut_images_using_boundingboxes" onclick="cut_images_using_boundingboxes()" style="display:block">cut_images_using_boundingboxes</button>
+<div>
+
+<div id="output" style="font-family:courier;font-size:24px;height:300px"></div>
 
 	    
-<style>
-      canvas {border: 1px solid black;}
-    </style>
+<style>canvas {border: 1px solid black;}</style>
   
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script> 
