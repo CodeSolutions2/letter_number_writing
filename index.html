@@ -209,6 +209,8 @@
 		var resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);  // initialize variable
 		var resizedTensor_grayscale = resizedTensor.mean(3); // This is size 28,28,1
 		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // This is size 1,28,28,1
+
+		var printTensor = tf.reshape(resizedTensor_grayscale, [28,28]); // This is size 28,28
 		
 		for (var i = 0; i<boundingbox_vec.length; i++){
 			// select each bounding box and make a tensor
@@ -219,13 +221,44 @@
 
 			resizedTensor_grayscale = resizedTensor.mean(3);
 			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);
+
+			// -----------------------------------------------
+
+			// Create a canvas element
+			var canvasElement = document.createElement('canvas');
+
+			// Set the width and height of the canvas
+			canvasElement.width = 28;
+			canvasElement.height = canvasElement.width;
+
+			// Get the 2D rendering context
+			const ctx = canvas.getContext("2d");
 			
-			// To confirm, would need to: convert the tensor to Image, then create a canvas, then drawImage to canvas
-			outp.innerHTML += 'resizedTensor_grayscale max= ' + tf.max(resizedTensor_grayscale) + '<br/>'; // **** incorrect, Tensor 0 , so it means that the crop is not taking the right boundingbox area
-			
-			outp.innerHTML += 'resizedTensor_grayscale_4D.shape = ' + resizedTensor_grayscale_4D.shape + '<br/>';
+			// Add the canvas to the document body or any other desired element
+			document.body.appendChild(canvasElement);
+
+			// Create an image data from the tensor
+			printTensor = tf.reshape(resizedTensor_grayscale_4D, [28,28]);
+			const imageData = new ImageData(new Uint8ClampedArray(printTensor.dataSync()), 28, 28);
+
+			// Draw the image data onto the canvas
+			ctx.putImageData(imageData, 0, 0);
+
+			// Save the tensor as an image
+			const link = document.createElement('a');
+			link.href = canvasElement.toDataURL("image/png");
+			link.download = "tensor"+i".png";
+			link.click();
 			
 			// -----------------------------------------------
+			
+			// To confirm, would need to: convert the tensor to Image, then create a canvas, then drawImage to canvas
+			outp.innerHTML += 'resizedTensor_grayscale max= ' + tf.max(resizedTensor_grayscale) + '<br/>'; // resizedTensor_grayscale max= Tensor 0
+			
+			// outp.innerHTML += 'resizedTensor_grayscale_4D.shape = ' + resizedTensor_grayscale_4D.shape + '<br/>'; //resizedTensor_grayscale_4D.shape = 1,28,28,1
+			
+			// -----------------------------------------------
+			
 			// Give image to model
 			const result = model.predict(resizedTensor_grayscale_4D); 
 			// outp.innerHTML += 'result= ' + result + '<br/>'; // Tensor [[0.0299567, 0.0064958, 0.0322246, ..., 0.0315075, 0.0173011, 0.0218268],]
@@ -233,7 +266,7 @@
 			// outp.innerHTML += 'Sum value of result: ' + tf.sum(result) + '<br/>'; // correct, sums to 1
 
 			const resultData = await result.data(); // correct
-			outp.innerHTML += 'resultData= ' + resultData + '<br/>';
+			// outp.innerHTML += 'resultData= ' + resultData + '<br/>'; // 0.02995668724179268,0.006495801266282797,...,0.04143814370036125
 			
 			// ----------------------
 			// Way 0
@@ -245,7 +278,8 @@
 			// OR
 
 			// Way 1
-			const {maxprob, index} = tf.topk(resultData); //maxprob=Tensor [0.0580552], index=Tensor [11]
+			// const {maxprob, index} = tf.topk(resultData); //maxprob=Tensor [0.0580552], index=Tensor [11]
+			const {maxprob, index} = tf.topk(result.dataSync()[0]);
 			// ----------------------
 
 			outp.innerHTML += 'index= ' + index + '<br/>';
