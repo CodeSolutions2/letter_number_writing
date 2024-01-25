@@ -229,7 +229,8 @@
 		outp.innerHTML += 'resizedTensor_rgb_3D.shape= ' + resizedTensor_rgb_3D.shape + '<br/>'; // resizedTensor_rgb_3D.shape= 28,28,3
 		// OR
 		// Read the red layer only: to understand how to index a tensor in javascript
-		var firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
+		// var firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
+		var secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, 1, -1]);
 		// -------------------------
 
 		const decode_index2numletter = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -262,7 +263,8 @@
 			resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]);
 			// OR
 			// Read the red layer only: to understand how to index a tensor in javascript
-			firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
+			// firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
+			secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, 1, -1]);
 			
 			// -----------------------------------------------
 
@@ -321,9 +323,9 @@
 			// for loop method
 			let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
 			for (let i = 0; i < 28 * 28; i++) {
-			     let value = firstLayer.dataSync()[i];
-			     imageDataArray[i * 4] = value; // Red component
-			     imageDataArray[i * 4 + 1] = 0; // Green component
+			     let value = secondLayer.dataSync()[i];
+			     imageDataArray[i * 4] = 0; // Red component
+			     imageDataArray[i * 4 + 1] = value; // Green component
 			     imageDataArray[i * 4 + 2] = 0; // Blue component
 			     imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
 			}
