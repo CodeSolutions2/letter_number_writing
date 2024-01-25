@@ -213,21 +213,23 @@
 		var boxes = tf.tensor2d([[0, 0, 1, 1]], [1, 4]);  // initialize variable
 		const boxIndices = tf.tensor1d([0], 'int32');
 		const newSize = [28, 28];
-		var resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);  // This is size 28,28,3
+		var resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);  // resizedTensor.shape= 1,28,28,3
 
-		outp.innerHTML += 'resizedTensor.shape= ' + resizedTensor.shape + '<br/>';
+		// outp.innerHTML += 'resizedTensor.shape= ' + resizedTensor.shape + '<br/>';  // resizedTensor.shape= 1,28,28,3
 
 		// -------------------------
 		// var resizedTensor_grayscale = resizedTensor.mean(3); // This is size 28,28,1
 		var resizedTensor_grayscale = resizedTensor.max(3); // This is size 28,28,1
+		outp.innerHTML += 'resizedTensor_grayscale.shape= ' + resizedTensor_grayscale.shape + '<br/>';
+		
 		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // This is size 1,28,28,1
+		outp.innerHTML += 'resizedTensor_grayscale_4D.shape= ' + resizedTensor_grayscale_4D.shape + '<br/>';
 		// OR
-		// var resizedTensor_grayscale_4D = tf.reshape(resizedTensor, [28,28,3,1]);
+		var resizedTensor_grayscale_4D_2 = tf.reshape(resizedTensor, [28,28,3,1]);
+		outp.innerHTML += 'resizedTensor_grayscale_4D_2.shape= ' + resizedTensor_grayscale_4D_2.shape + '<br/>';
 		// -------------------------
 
 		const decode_index2numletter = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-		
-		
 		
 		// -----------------------------------------------
 		
