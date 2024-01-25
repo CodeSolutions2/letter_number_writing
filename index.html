@@ -187,7 +187,7 @@
 		ctx.drawImage(image, 0, 0, 224, 224);
 
 		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
-		outp.innerHTML = 'Max value of entire image: ' + tf.max(tensor_image) + '<br/>';
+		outp.innerHTML = 'Max value of entire image: ' + tf.max(tensor_image) + '<br/>';  // Tensor 255
 
 		const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
 
@@ -221,35 +221,35 @@
 			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);
 			
 			// To confirm, would need to: convert the tensor to Image, then create a canvas, then drawImage to canvas
-			outp.innerHTML += 'resizedTensor_grayscale max= ' + tf.max(resizedTensor_grayscale) + '<br/>'; // **** incorrect, gives 0, so it means that the crop is not taking the right boundingbox area
+			outp.innerHTML += 'resizedTensor_grayscale max= ' + tf.max(resizedTensor_grayscale) + '<br/>'; // **** incorrect, Tensor 0 , so it means that the crop is not taking the right boundingbox area
 			
 			outp.innerHTML += 'resizedTensor_grayscale_4D.shape = ' + resizedTensor_grayscale_4D.shape + '<br/>';
 			
 			// -----------------------------------------------
 			// Give image to model
 			const result = model.predict(resizedTensor_grayscale_4D); 
-			outp.innerHTML += 'result= ' + result + '<br/>'; 
-			outp.innerHTML += 'result.shape= ' + result.shape + '<br/>'; // correct
+			// outp.innerHTML += 'result= ' + result + '<br/>'; // Tensor [[0.0299567, 0.0064958, 0.0322246, ..., 0.0315075, 0.0173011, 0.0218268],]
+			// outp.innerHTML += 'result.shape= ' + result.shape + '<br/>'; // correct, 1,36
 			// outp.innerHTML += 'Sum value of result: ' + tf.sum(result) + '<br/>'; // correct, sums to 1
 
 			// Get index of maximum softmax probability 
-			const index0 = tf.argMax(result); // returns: 
-			const index1 = result.as1D().argMax().print();
-			const index2 = await result.as1D().argMax().data()[0];
-			const index3 = result.as1D().argMax().dataSync()[0];
+			// const index0 = tf.argMax(result); // incorrect, Tensor [0, 0, 0, ..., 0, 0, 0]
+			// const index1 = result.as1D().argMax().print(); // incorrect, undefined
+			// const index2 = await result.as1D().argMax().data()[0]; // incorrect, undefined
+			const index3 = result.as1D().argMax().dataSync()[0];  // 11
 
-			outp.innerHTML += 'index0= ' + index0 + '<br/>';
-			outp.innerHTML += 'index1= ' + index1 + '<br/>';
-			outp.innerHTML += 'index2= ' + index2 + '<br/>';
-			outp.innerHTML += 'index3= ' + index3 + '<br/>';
+			// outp.innerHTML += 'index0= ' + index0 + '<br/>'; // incorrect
+			// outp.innerHTML += 'index1= ' + index1 + '<br/>'; // incorrect, 
+			// outp.innerHTML += 'index2= ' + index2 + '<br/>'; // incorrect
+			outp.innerHTML += 'index3= ' + index3 + '<br/>'; // correct
 
 			// Get maximum softmax probability 
 			const predict = await result.data();
 			const maxprob0 = predict[index3];
 			const maxprob1 = result[index3];
 			
-			const topk = result.as1D().topk();
-			const maxprob2 = topk.value();
+			const {values, indices} = tf.topk(result.as1D());
+			const maxprob2 = values.print();
 			
 			outp.innerHTML += 'maxprob0= ' + maxprob0 + '<br/>';
 			outp.innerHTML += 'maxprob1= ' + maxprob1 + '<br/>';
