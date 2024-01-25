@@ -232,30 +232,25 @@
 			// outp.innerHTML += 'result.shape= ' + result.shape + '<br/>'; // correct, 1,36
 			// outp.innerHTML += 'Sum value of result: ' + tf.sum(result) + '<br/>'; // correct, sums to 1
 
+			const resultData = await result.data(); // correct
+			outp.innerHTML += 'resultData= ' + resultData + '<br/>';
+			
+			// ----------------------
+			// Way 0
 			// Get index of maximum softmax probability 
-			// const index0 = tf.argMax(result); // incorrect, Tensor [0, 0, 0, ..., 0, 0, 0]
-			// const index1 = result.as1D().argMax().print(); // incorrect, undefined
-			// const index2 = await result.as1D().argMax().data()[0]; // incorrect, undefined
-			const index3 = result.as1D().argMax().dataSync()[0];  // correct, 11
-
-			// outp.innerHTML += 'index0= ' + index0 + '<br/>'; // incorrect
-			// outp.innerHTML += 'index1= ' + index1 + '<br/>'; // incorrect, 
-			// outp.innerHTML += 'index2= ' + index2 + '<br/>'; // incorrect
-			outp.innerHTML += 'index3= ' + index3 + '<br/>'; // correct
-
+			const index = result.as1D().argMax().dataSync()[0];  // 11
 			// Get maximum softmax probability 
-			const predict = await result.data(); // correct
-			const maxprob0 = predict[index3]; // correct
-			const maxprob1 = result[index3]; // incorrect, undefined
-
-			outp.innerHTML += 'maxprob0= ' + maxprob0 + '<br/>';
-			outp.innerHTML += 'maxprob1= ' + maxprob1 + '<br/>';  // incorrect, undefined
+			const maxprob = resultData[index]; // 0.058055195957422256
 
 			// OR
+
+			// Way 1
+			const {maxprob, index} = tf.topk(resultData); //maxprob=Tensor [0.0580552], index=Tensor [11]
+			// ----------------------
+
+			outp.innerHTML += 'index= ' + index + '<br/>';
+			outp.innerHTML += 'maxprob= ' + maxprob + '<br/>';
 			
-			const {values, indices} = tf.topk(predict); 
-			outp.innerHTML += 'values= ' + values + '<br/>';
-			outp.innerHTML += 'indices= ' + indices + '<br/>';
 			
 			
 		} // end of for
