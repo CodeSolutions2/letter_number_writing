@@ -256,18 +256,18 @@
 
 			// OR
 
-			// for loop method
-			// let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
-			// for (let i = 0; i < 28 * 28; i++) {
-			//      let value = resizedTensor_grayscale_4D.dataSync()[i];
-			//      imageDataArray[i * 4] = value; // Red component
-			//      imageDataArray[i * 4 + 1] = value; // Green component
-			//      imageDataArray[i * 4 + 2] = value; // Blue component
-			//      imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
-			// }
+			for loop method
+			let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
+			for (let i = 0; i < 28 * 28; i++) {
+			     let value = resizedTensor_grayscale_4D.dataSync()[i];
+			     imageDataArray[i * 4] = value; // Red component
+			     imageDataArray[i * 4 + 1] = value; // Green component
+			     imageDataArray[i * 4 + 2] = value; // Blue component
+			     imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
+			}
 
-			// let imageData = new ImageData(imageDataArray, 28, 28);
-			// WORKS!
+			let imageData = new ImageData(imageDataArray, 28, 28);
+			// WORKS! but for loop is a bad idea
 
 			// OR
 
@@ -287,8 +287,8 @@
 			// let imageData = new ImageData(new Uint8ClampedArray(pixels), 28, 28);
 			// Uncaught (in promise) DOMException: An attempt was made to use an object that is not, or is no longer, usable
 			// try 3
-			let imageData = new ImageData(new Uint8ClampedArray(tf.browser.toPixels(resizedTensor_grayscale_4D)), 28, 28);
-			
+			// let imageData = new ImageData(new Uint8ClampedArray(tf.browser.toPixels(resizedTensor_grayscale_4D)), 28, 28);
+			// Uncaught (in promise) DOMException: An attempt was made to use an object that is not, or is no longer, usable
 			// ----------------------
 
 			// Draw the image data onto the canvas
