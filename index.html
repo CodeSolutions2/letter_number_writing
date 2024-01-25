@@ -229,9 +229,11 @@
 		outp.innerHTML += 'resizedTensor_rgb_3D.shape= ' + resizedTensor_rgb_3D.shape + '<br/>'; 
 		// OR
 		// Read the red layer only: to understand how to index a tensor in javascript
-		// var firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
-		var secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, 1, -1]);
-		outp.innerHTML += 'secondLayer.shape test0 = ' + secondLayer.shape + '<br/>';
+		// var firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 0]);
+		var secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 1]);
+		// var thirdLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 2]);
+		outp.innerHTML += 'secondLayer.shape test0 = ' + secondLayer.shape + '<br/>'; // secondLayer.shape test0 = 28,1,3
+		
 		// -------------------------
 
 		const decode_index2numletter = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -265,7 +267,7 @@
 			// OR
 			// Read the red layer only: to understand how to index a tensor in javascript
 			// firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
-			secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, 1]);
+			secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 1]);
 			secondLayer = tf.reshape(secondLayer, [1,28,28,1]);
 			outp.innerHTML += 'secondLayer.shape test1 = ' + secondLayer.shape + '<br/>';
 			
