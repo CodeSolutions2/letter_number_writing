@@ -276,8 +276,8 @@
 			const pixels = tf.browser.toPixels(resizedTensor_grayscale_4D);
 
 			// Create a Uint8ClampedArray from the pixels array
-			const uint8ClampedArray = new Uint8ClampedArray(pixels);
-			let imageData = new ImageData(uint8ClampedArray, 28, 28);
+			// const uint8ClampedArray = new Uint8ClampedArray(pixels.dataSync());
+			let imageData = new ImageData(new Uint8ClampedArray(pixels.dataSync()), 28, 28);
 			
 			// ----------------------
 
