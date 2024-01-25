@@ -160,12 +160,12 @@
      // -------------------------
 
      // Coordinates for browser
-     ctx.beginPath();
-     ctx.lineWidth = '2';
-     ctx.strokeStyle = 'red';
-     ctx.fillStyle = 'red';
-     ctx.rect(x_start_bottomleft_corner, y_start_bottomleft_corner, width, height);
-     ctx.stroke();
+     // ctx.beginPath();
+     // ctx.lineWidth = '2';
+     // ctx.strokeStyle = 'red';
+     // ctx.fillStyle = 'red';
+     // ctx.rect(x_start_bottomleft_corner, y_start_bottomleft_corner, width, height);
+    //  ctx.stroke();
 
      maxX = 0;
      maxY = 0;
@@ -329,10 +329,11 @@
 			let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
 			for (let i = 0; i < 28 * 28; i++) {
 			     let value = resizedTensor_grayscale_4D.dataSync()[i];
-			     imageDataArray[i * 4] = value; // Red component
-			     imageDataArray[i * 4 + 1] = value; // Green component
-			     imageDataArray[i * 4 + 2] = value; // Blue component
-			     imageDataArray[i * 4 + 3] = value > 0.5 ? 255 : 0;// 255; // Alpha component, set to 255 to make it fully opaque
+			     imageDataArray[i * 4] = value > 0.5 ? 255 : 0; // Red component
+			     imageDataArray[i * 4 + 1] = value > 0.5 ? 255 : 0; // Green component
+			     imageDataArray[i * 4 + 2] = value > 0.5 ? 255 : 0; // Blue component
+			     imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
+				// value > 0.5 ? 255 : 0;
 			}
 
 			let imageData = new ImageData(imageDataArray, 28, 28);
