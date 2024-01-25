@@ -227,6 +227,9 @@
 		// OR
 		var resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]); // resizedTensor_rgb_3D.shape= 28,28,3
 		outp.innerHTML += 'resizedTensor_rgb_3D.shape= ' + resizedTensor_rgb_3D.shape + '<br/>'; // resizedTensor_rgb_3D.shape= 28,28,3
+		// OR
+		// Read the red layer only: to understand how to index a tensor in javascript
+		var firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
 		// -------------------------
 
 		const decode_index2numletter = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -257,6 +260,9 @@
 			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);
 			// OR
 			resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]);
+			// OR
+			// Read the red layer only: to understand how to index a tensor in javascript
+			firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
 			
 			// -----------------------------------------------
 
@@ -286,18 +292,43 @@
 			// OR
 
 			// for loop method
+			// let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
+			// for (let i = 0; i < 28 * 28; i++) {
+			     // let value = resizedTensor_grayscale_4D.dataSync()[i];
+			//      imageDataArray[i * 4] = value; // Red component
+			//      imageDataArray[i * 4 + 1] = value; // Green component
+			//      imageDataArray[i * 4 + 2] = value; // Blue component
+			//      imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
+			// }
+
+			// let imageData = new ImageData(imageDataArray, 28, 28);
+			// WORKS! but for loop is a bad idea
+
+	// OR
+
+			
+			// const r_data = await firstLayer.data();
+			// const b_data = await secondLayer.data();
+			// const g_data = await thirdLayer.data();
+			// ones_vec = tf.ones([1, 28 * 28]).as1D();
+			// const b = tf.scalar(255);
+			// alpha_component = await ones_vec.mul(b).data();
+			//let imageDataArray = new Uint8ClampedArray([r_data][b_data][g_data][alpha_component]);
+
+
+			// OR
+			
+			// for loop method
 			let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
 			for (let i = 0; i < 28 * 28; i++) {
-			     // let value = resizedTensor_grayscale_4D.dataSync()[i];
-			     let value = resizedTensor_rgb_3D.dataSync()[i];
+			     let value = firstLayer.dataSync()[i];
 			     imageDataArray[i * 4] = value; // Red component
-			     imageDataArray[i * 4 + 1] = value; // Green component
-			     imageDataArray[i * 4 + 2] = value; // Blue component
+			     imageDataArray[i * 4 + 1] = 0; // Green component
+			     imageDataArray[i * 4 + 2] = 0; // Blue component
 			     imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
 			}
 
 			let imageData = new ImageData(imageDataArray, 28, 28);
-			// WORKS! but for loop is a bad idea
 
 			// OR
 
@@ -321,7 +352,7 @@
 			// let imageData = new ImageData(new Uint8ClampedArray(tf.browser.toPixels(resizedTensor_grayscale_4D)), 28, 28);
 			// Uncaught (in promise) DOMException: An attempt was made to use an object that is not, or is no longer, usable
 			// try 4
-			// const pixels = tf.browser.toPixels(resizedTensor_grayscale_4D.dataSync());
+			// const pixels = tf.browser.toPixels(resizedTensor_rgb_3D.dataSync());
 			// let imageData = new ImageData(new Uint8ClampedArray(pixels), 28, 28);
 			
 			// ----------------------
