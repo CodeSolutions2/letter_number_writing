@@ -215,9 +215,11 @@
 		const newSize = [28, 28];
 		var resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);  // This is size 28,28,3
 
+		outp.innerHTML += 'resizedTensor.shape= ' + resizedTensor.shape + '<br/>';
+
 		// -------------------------
-		// var resizedTensor_grayscale = resizedTensor.mean(2); // This is size 28,28,1
-		var resizedTensor_grayscale = resizedTensor.max(2); // This is size 28,28,1
+		// var resizedTensor_grayscale = resizedTensor.mean(3); // This is size 28,28,1
+		var resizedTensor_grayscale = resizedTensor.max(3); // This is size 28,28,1
 		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // This is size 1,28,28,1
 		// OR
 		// var resizedTensor_grayscale_4D = tf.reshape(resizedTensor, [28,28,3,1]);
@@ -248,8 +250,8 @@
 			// -----------------------------------------------
 			
 			// Convert RGB image [28,28,3] to grayscale [28,28,1]
-			// resizedTensor_grayscale = resizedTensor.mean(2);
-			resizedTensor_grayscale = resizedTensor.max(2); // This is size 28,28,1
+			// resizedTensor_grayscale = resizedTensor.mean(3);
+			resizedTensor_grayscale = resizedTensor.max(3); // This is size 28,28,1
 			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);
 			// OR
 			// resizedTensor_grayscale_4D = tf.reshape(resizedTensor, [28,28,3,1]);
