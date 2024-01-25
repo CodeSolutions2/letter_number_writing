@@ -298,7 +298,7 @@
 
 			// OR
 
-			// for loop method
+			
 			// let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
 			// for (let i = 0; i < 28 * 28; i++) {
 			     // let value = resizedTensor_grayscale_4D.dataSync()[i];
@@ -328,10 +328,10 @@
 			// for loop method
 			let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
 			for (let i = 0; i < 28 * 28; i++) {
-			     let value = secondLayer.dataSync()[i];
-			     imageDataArray[i * 4] = 0; // Red component
-			     imageDataArray[i * 4 + 1] = value; // Green component
-			     imageDataArray[i * 4 + 2] = 0; // Blue component
+			     let value = resizedTensor_grayscale_4D.dataSync()[i];
+			     imageDataArray[i * 4] = value-255; // Red component
+			     imageDataArray[i * 4 + 1] = value-255; // Green component
+			     imageDataArray[i * 4 + 2] = value-255; // Blue component
 			     imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
 			}
 
