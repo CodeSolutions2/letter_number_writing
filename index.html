@@ -235,12 +235,34 @@
 			// Add the canvas to the document body or any other desired element
 			document.body.appendChild(canvasElement);
 
-
+			// ----------------------
+	
+			// const imageData = new ImageData(new Uint8ClampedArray(resizedTensor_grayscale_4D.dataSync()), 28, 28);
 			// DOMException: Index or size is negative or greater than the allowed amount
-			const imageData = new ImageData(new Uint8ClampedArray(resizedTensor_grayscale_4D.dataSync()), 28, 28);
+			
 			// OR
+			
 			// const imageData = await printTensor.data();
 			// TypeError: CanvasRenderingContext2D.putImageData: Argument 1 does not implement interface ImageData.
+
+			// OR
+
+			let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
+			for (let i = 0; i < 28 * 28; i++) {
+			     let value = resizedTensor_grayscale_4D.dataSync()[i];
+			     imageDataArray[i * 4] = value; // Red component
+			     imageDataArray[i * 4 + 1] = value; // Green component
+			     imageDataArray[i * 4 + 2] = value; // Blue component
+			     imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
+			   }
+
+			let imageData = new ImageData(imageDataArray, 28, 28);
+
+			// OR
+			
+			// let imageData = new ImageData(resizedTensor_grayscale_4D.dataSync(), 28, 28);
+			
+			// ----------------------
 
 			// Draw the image data onto the canvas
 			ctx.putImageData(imageData, 0, 0);
