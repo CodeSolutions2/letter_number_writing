@@ -224,8 +224,9 @@
 			const tensor_from0to1 = tensor.div(b);
 
 			outp.innerHTML += 'tensor_from0to1= ' + tensor_from0to1 + '<br/>';
-			
-			boxes = tf.tensor2d(tensor_from0to1, [1, 4]);
+
+			const tensor_from0to1_data = await tensor_from0to1.data();
+			boxes = tf.tensor2d([tensor_from0to1_data], [1, 4]);
 			
 			resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);
 			
