@@ -218,8 +218,14 @@
 			
 			// select each bounding box and make a tensor
 			outp.innerHTML += 'boundingbox_vec ' + i + ': ' + boundingbox_vec[i] + '<br/>';
-				
-			boxes = tf.tensor2d([boundingbox_vec[i]], [1, 4]);
+
+			const tensor = tf.tensor(boundingbox_vec[i]);
+			const b = tf.scalar(224);
+			const tensor_from0to1 = image_filter0.div(b);
+
+			outp.innerHTML += 'tensor_from0to1= ' + tensor_from0to1 + '<br/>';
+			
+			boxes = tf.tensor2d(tensor_from0to1, [1, 4]);
 			
 			resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);
 			
