@@ -37,11 +37,11 @@
   const outp = document.getElementById('output');
 
   // -------------------------------------------------
-  var canvasWidthh = 500;
+  var canvasWidth = 500;
   var canvasHeight = 500;
   var maxX = 0;
   var maxY = 0;
-  var minX = canvasWidthh;
+  var minX = canvasWidth;
   var minY = canvasHeight;
   var width = maxX-minX;
   var height = minY-maxY;
@@ -113,7 +113,7 @@
 
      const img = new Image();
      img.onload = () => {
-     ctx.drawImage(img, 0, 0, canvasWidthh, canvasHeight);
+     ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
      };
 
      // outp.innerHTML = "";
@@ -165,7 +165,7 @@
 
      maxX = 0;
      maxY = 0;
-     minX = canvasWidthh;
+     minX = canvasWidth;
      minY = canvasHeight;
 	  
   }, false);
@@ -187,7 +187,7 @@
 
 		var word_out = [];
 		
-		ctx.drawImage(image, 0, 0, canvasWidthh, canvasHeight);
+		ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
 
 		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
 		// outp.innerHTML += 'Max value of entire image: ' + tf.max(tensor_image) + '<br/>';  // Tensor 255
@@ -241,12 +241,18 @@
 			// select each bounding box and make a tensor
 			// outp.innerHTML += 'boundingbox_vec ' + i + ': ' + boundingbox_vec[i] + '<br/>';
 
+			// -------------------------
 			const tensor = tf.tensor(boundingbox_vec[i]);
-			const b = tf.scalar(canvasWidthh);
+			const b = tf.scalar(canvasWidth);
 			const tensor_from0to1 = tensor.div(b);
 
-			// outp.innerHTML += 'tensor_from0to1= ' + tensor_from0to1 + '<br/>';
+			// OR
 
+			const tensor_from0to1 = tf.tensor([boundingbox_vec[i][0]/canvasHeight, boundingbox_vec[i][0]/canvasWidth, boundingbox_vec[i][0]/canvasHeight, boundingbox_vec[i][0]/canvasWidth]);
+			
+			// outp.innerHTML += 'tensor_from0to1= ' + tensor_from0to1 + '<br/>';
+			// -------------------------
+			
 			const tensor_from0to1_data = await tensor_from0to1.data();
 			boxes = tf.tensor2d([tensor_from0to1_data], [1, 4]);
 			
