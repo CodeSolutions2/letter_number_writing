@@ -48,8 +48,8 @@
 
   var maxX = 0;
   var maxY = 0;
-  var minX = 255;
-  var minY = 255;
+  var minX = 224;
+  var minY = 224;
   var width = maxX-minX;
   var height = minY-maxY;
   var boundingbox_vec = [];
@@ -171,8 +171,8 @@
 
      maxX = 0;
      maxY = 0;
-     minX = 255;
-     minY = 255;
+     minX = 224;
+     minY = 224;
 	  
   }, false);
 
@@ -191,7 +191,7 @@
 		ctx.drawImage(image, 0, 0, 224, 224);
 
 		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
-		outp.innerHTML = 'Max value of entire image: ' + tf.max(tensor_image) + '<br/>';  // Tensor 255
+		outp.innerHTML += 'Max value of entire image: ' + tf.max(tensor_image) + '<br/>';  // Tensor 255
 
 		const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
 
