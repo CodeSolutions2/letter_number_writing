@@ -247,7 +247,8 @@
 			// Save the tensor as an image
 			const link = document.createElement('a');
 			link.href = canvasElement.toDataURL("image/png");
-			link.download = "tensor"+i".png";
+			link.download = `tensor_${i}.png`;
+			// link.download = "tensor.png";
 			link.click();
 			
 			// -----------------------------------------------
