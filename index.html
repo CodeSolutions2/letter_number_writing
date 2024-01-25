@@ -12,19 +12,15 @@
 <!-- https://www.jsdelivr.com/?query=author%3A%20tensorflow&page=1 -->
 	
 <h2 id="select_model" style='text-align: left; display:none'>Write a captial letter or number in the box, click the button to classify</h2>
-   
-<!-- Once image and model are selected, make image appear in canvas and run model -->
-<canvas id="canvasId" width="224" height="224" style="display:block"></canvas>
 
-<br><br><br><br>
-
-<div style="width:100%;height:100%;position:absolute;vertical-align:middle;text-align:left;">
 <button id="run_object_detection" onclick="run_object_detection()" style="display:block">run_object_detection</button>&nbsp;&nbsp;&nbsp;
 <button id="cut_images_using_boundingboxes" onclick="cut_images_using_boundingboxes()" style="display:block">cut_images_using_boundingboxes</button>
-<div>
+	
+<!-- Once image and model are selected, make image appear in canvas and run model -->
+<canvas id="canvasId" width="500" height="500" style="display:block"></canvas>
+
 
 <div id="output" style="font-family:courier;font-size:24px;height:300px"></div>
-
 	    
 <style>canvas {border: 1px solid black;}</style>
   
@@ -42,11 +38,12 @@
   const outp = document.getElementById('output');
 
   // -------------------------------------------------
-
+  var canvasWidthh = 500;
+  var canvasHeight = 500;
   var maxX = 0;
   var maxY = 0;
-  var minX = 224;
-  var minY = 224;
+  var minX = canvasWidthh;
+  var minY = canvasHeight;
   var width = maxX-minX;
   var height = minY-maxY;
   var boundingbox_vec = [];
@@ -117,7 +114,7 @@
 
      const img = new Image();
      img.onload = () => {
-     ctx.drawImage(img, 0, 0, 224, 224);
+     ctx.drawImage(img, 0, 0, canvasWidthh, canvasHeight);
      };
 
      outp.innerHTML = "";
@@ -169,8 +166,8 @@
 
      maxX = 0;
      maxY = 0;
-     minX = 224;
-     minY = 224;
+     minX = canvasWidthh;
+     minY = canvasHeight;
 	  
   }, false);
 
@@ -191,10 +188,10 @@
 
 		var word_out = [];
 		
-		ctx.drawImage(image, 0, 0, 224, 224);
+		ctx.drawImage(image, 0, 0, canvasWidthh, canvasHeight);
 
 		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
-		outp.innerHTML += 'Max value of entire image: ' + tf.max(tensor_image) + '<br/>';  // Tensor 255
+		// outp.innerHTML += 'Max value of entire image: ' + tf.max(tensor_image) + '<br/>';  // Tensor 255
 
 		const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
 
@@ -220,19 +217,19 @@
 		// -------------------------
 		// var resizedTensor_grayscale = resizedTensor.mean(3); // resizedTensor_grayscale.shape= 1,28,28
 		var resizedTensor_grayscale = resizedTensor.max(3); // resizedTensor_grayscale.shape= 1,28,28
-		outp.innerHTML += 'resizedTensor_grayscale.shape= ' + resizedTensor_grayscale.shape + '<br/>'; // resizedTensor_grayscale.shape= 1,28,28
+		// outp.innerHTML += 'resizedTensor_grayscale.shape= ' + resizedTensor_grayscale.shape + '<br/>'; // resizedTensor_grayscale.shape= 1,28,28
 		
 		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // resizedTensor_grayscale_4D.shape= 1,28,28,1
-		outp.innerHTML += 'resizedTensor_grayscale_4D.shape= ' + resizedTensor_grayscale_4D.shape + '<br/>';
+		// outp.innerHTML += 'resizedTensor_grayscale_4D.shape= ' + resizedTensor_grayscale_4D.shape + '<br/>';
 		// OR
-		var resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]); // resizedTensor_rgb_3D.shape= 28,28,3
-		outp.innerHTML += 'resizedTensor_rgb_3D.shape= ' + resizedTensor_rgb_3D.shape + '<br/>'; 
+		// var resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]); // resizedTensor_rgb_3D.shape= 28,28,3
+		// outp.innerHTML += 'resizedTensor_rgb_3D.shape= ' + resizedTensor_rgb_3D.shape + '<br/>'; 
 		// OR
 		// Read the red layer only: to understand how to index a tensor in javascript
 		// var firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 0]);
-		var secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 1]);
+		// var secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 1]);
 		// var thirdLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 2]);
-		outp.innerHTML += 'secondLayer.shape test0 = ' + secondLayer.shape + '<br/>'; // secondLayer.shape test0 = 28,28,1
+		// outp.innerHTML += 'secondLayer.shape test0 = ' + secondLayer.shape + '<br/>'; // secondLayer.shape test0 = 28,28,1
 		
 		// -------------------------
 
@@ -243,10 +240,10 @@
 		for (var i = 0; i<boundingbox_vec.length; i++){
 			
 			// select each bounding box and make a tensor
-			outp.innerHTML += 'boundingbox_vec ' + i + ': ' + boundingbox_vec[i] + '<br/>';
+			// outp.innerHTML += 'boundingbox_vec ' + i + ': ' + boundingbox_vec[i] + '<br/>';
 
 			const tensor = tf.tensor(boundingbox_vec[i]);
-			const b = tf.scalar(224);
+			const b = tf.scalar(canvasWidthh);
 			const tensor_from0to1 = tensor.div(b);
 
 			outp.innerHTML += 'tensor_from0to1= ' + tensor_from0to1 + '<br/>';
@@ -263,13 +260,13 @@
 			resizedTensor_grayscale = resizedTensor.max(3); // This is size 28,28,1
 			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);  // OK
 			// OR
-			resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]);
+			// resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]);
 			// OR
 			// Read the red layer only: to understand how to index a tensor in javascript
 			// firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
-			secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 1]);
-			secondLayer = tf.reshape(secondLayer, [1,28,28,1]);
-			outp.innerHTML += 'secondLayer.shape test1 = ' + secondLayer.shape + '<br/>';
+			// secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 1]);
+			// secondLayer = tf.reshape(secondLayer, [1,28,28,1]);
+			// outp.innerHTML += 'secondLayer.shape test1 = ' + secondLayer.shape + '<br/>';
 			
 			// -----------------------------------------------
 
@@ -333,7 +330,6 @@
 			     imageDataArray[i * 4 + 1] = value > 0.5 ? 255 : 0; // Green component
 			     imageDataArray[i * 4 + 2] = value > 0.5 ? 255 : 0; // Blue component
 			     imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
-				// value > 0.5 ? 255 : 0;
 			}
 
 			let imageData = new ImageData(imageDataArray, 28, 28);
@@ -369,15 +365,15 @@
 			ctx.putImageData(imageData, 0, 0);
 			
 			// Save the tensor as an image
-			const link = document.createElement('a');
-			link.href = canvasElement.toDataURL("image/png");
-			link.download = `tensor_${i}.png`;
-			link.click();
+			// const link = document.createElement('a');
+			// link.href = canvasElement.toDataURL("image/png");
+			// link.download = `tensor_${i}.png`;
+			// link.click();
 			
 			// -----------------------------------------------
 			
 			// To confirm, would need to: convert the tensor to Image, then create a canvas, then drawImage to canvas
-			outp.innerHTML += 'resizedTensor_grayscale max= ' + tf.max(resizedTensor_grayscale) + '<br/>'; // resizedTensor_grayscale max= Tensor 85.38902282714844
+			// outp.innerHTML += 'resizedTensor_grayscale max= ' + tf.max(resizedTensor_grayscale) + '<br/>'; // resizedTensor_grayscale max= Tensor 85.38902282714844
 			
 			// outp.innerHTML += 'resizedTensor_grayscale_4D.shape = ' + resizedTensor_grayscale_4D.shape + '<br/>'; //resizedTensor_grayscale_4D.shape = 1,28,28,1
 			
@@ -458,7 +454,7 @@
 	const image = new Image();
 	image.src = canvasElement.toDataURL();  // This gives the url to the image drawn on the canvas
 	image.onload = async () => {
-		ctx.drawImage(image, 0, 0, 224, 224);
+		ctx.drawImage(image, 0, 0, canvasWidthh, 224);
 		ctx.beginPath();
 		ctx.strokeStyle = "red";  // color of line
 		
