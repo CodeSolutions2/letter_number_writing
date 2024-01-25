@@ -209,8 +209,6 @@
 		var resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);  // initialize variable
 		var resizedTensor_grayscale = resizedTensor.mean(3); // This is size 28,28,1
 		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // This is size 1,28,28,1
-
-		var printTensor = tf.reshape(resizedTensor_grayscale, [28,28]); // This is size 28,28
 		
 		for (var i = 0; i<boundingbox_vec.length; i++){
 			// select each bounding box and make a tensor
@@ -237,13 +235,12 @@
 			// Add the canvas to the document body or any other desired element
 			document.body.appendChild(canvasElement);
 
-			// Create an image data from the tensor
-			printTensor = tf.reshape(resizedTensor_grayscale_4D, [28,28]);
 
 			// DOMException: Index or size is negative or greater than the allowed amount
-			//const imageData = new ImageData(new Uint8ClampedArray(printTensor.dataSync()), 28, 28);
+			const imageData = new ImageData(new Uint8ClampedArray(resizedTensor_grayscale_4D.dataSync()), 28, 28);
 			// OR
-			const imageData = await printTensor.data();
+			// const imageData = await printTensor.data();
+			// TypeError: CanvasRenderingContext2D.putImageData: Argument 1 does not implement interface ImageData.
 
 			// Draw the image data onto the canvas
 			ctx.putImageData(imageData, 0, 0);
