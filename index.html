@@ -13,7 +13,6 @@
 	
 <h2 id="select_model" style='text-align: left; display:none'>Write a captial letter or number in the box, click the button to classify</h2>
 
-<button id="run_object_detection" onclick="run_object_detection()" style="display:block">run_object_detection</button>&nbsp;&nbsp;&nbsp;
 <button id="cut_images_using_boundingboxes" onclick="cut_images_using_boundingboxes()" style="display:block">cut_images_using_boundingboxes</button>
 	
 <!-- Once image and model are selected, make image appear in canvas and run model -->
@@ -38,11 +37,11 @@
   const outp = document.getElementById('output');
 
   // -------------------------------------------------
-  var canvasWidthh = 500;
+  var canvasWidth = 500;
   var canvasHeight = 500;
   var maxX = 0;
   var maxY = 0;
-  var minX = canvasWidthh;
+  var minX = canvasWidth;
   var minY = canvasHeight;
   var width = maxX-minX;
   var height = minY-maxY;
@@ -114,11 +113,11 @@
 
      const img = new Image();
      img.onload = () => {
-     ctx.drawImage(img, 0, 0, canvasWidthh, canvasHeight);
+     ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
      };
 
-     outp.innerHTML = "";
-     outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY + " : " +  "minX=" + minX + " : " +  "minY=" + minY + "<br/>";
+     // outp.innerHTML = "";
+     // outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY + " : " +  "minX=" + minX + " : " +  "minY=" + minY + "<br/>";
 
      // Put each box in a vector: [x_start_bottomleft_corner, y_start_bottomleft_corner, width, height]
      x_start_bottomleft_corner = minX - padboundary/2;
@@ -166,7 +165,7 @@
 
      maxX = 0;
      maxY = 0;
-     minX = canvasWidthh;
+     minX = canvasWidth;
      minY = canvasHeight;
 	  
   }, false);
@@ -188,7 +187,7 @@
 
 		var word_out = [];
 		
-		ctx.drawImage(image, 0, 0, canvasWidthh, canvasHeight);
+		ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
 
 		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
 		// outp.innerHTML += 'Max value of entire image: ' + tf.max(tensor_image) + '<br/>';  // Tensor 255
@@ -242,12 +241,18 @@
 			// select each bounding box and make a tensor
 			// outp.innerHTML += 'boundingbox_vec ' + i + ': ' + boundingbox_vec[i] + '<br/>';
 
+			// -------------------------
 			const tensor = tf.tensor(boundingbox_vec[i]);
-			const b = tf.scalar(canvasWidthh);
+			const b = tf.scalar(canvasWidth);
 			const tensor_from0to1 = tensor.div(b);
 
-			outp.innerHTML += 'tensor_from0to1= ' + tensor_from0to1 + '<br/>';
+			// OR
 
+			const tensor_from0to1 = tf.tensor([boundingbox_vec[i][0]/canvasHeight, boundingbox_vec[i][0]/canvasWidth, boundingbox_vec[i][0]/canvasHeight, boundingbox_vec[i][0]/canvasWidth]);
+			
+			// outp.innerHTML += 'tensor_from0to1= ' + tensor_from0to1 + '<br/>';
+			// -------------------------
+			
 			const tensor_from0to1_data = await tensor_from0to1.data();
 			boxes = tf.tensor2d([tensor_from0to1_data], [1, 4]);
 			
@@ -423,116 +428,6 @@
   }
 	
   // -------------------------------------------------
-
-
-  async function run_object_detection(){
-
-     try {
-      
-     // outp.innerHTML = canvasElement.toDataURL();
-
-      // -------------------------------------------------
-      // Way 0
-      await cocoSsd.load().then(model => {
-	
-        // ----------------------
-        // Test if it has received the image
-
-        // const image = new Image();
-        // image.src = canvasElement.toDataURL();  // This gives the url to the image drawn on the canvas
-        // ctx.drawImage(image, 0, 0, 224, 224);
-        // var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
-	
-	// Error: Requested texture size [0x0] is invalid.
-
-        // OR
-	
-        // const tensor_image = tf.browser.fromPixels(canvasElement); // This is size 224,224,3
-
-	// OR
-
-	const image = new Image();
-	image.src = canvasElement.toDataURL();  // This gives the url to the image drawn on the canvas
-	image.onload = async () => {
-		ctx.drawImage(image, 0, 0, canvasWidthh, 224);
-		ctx.beginPath();
-		ctx.strokeStyle = "red";  // color of line
-		
-		var tensor_image = tf.browser.fromPixels(image); // This is size 224,224,3
-		outp.innerHTML = tf.max(tensor_image);
-
-		// model.detect(image).then(predictions => { outp.innerHTML = 'Here1: ' + predictions; }); 
-		// OR
-		// await model.detect(image).then(predictions => {for(var i = 0; i<predictions.length; i++){outp.innerHTML += "<br/>" + predictions[i].bbox + " : " + predictions[i].class + " : " + predictions[i].score;} });
-
-
-		// OR
-		await model.detect(image).then(predictions => { predictions.forEach(prediction => {
-      ctx.beginPath();
-      ctx.lineWidth = '2';
-      ctx.strokeStyle = 'red';
-      ctx.fillStyle = 'red';
-      ctx.rect(
-        prediction.bbox[0],
-        prediction.bbox[1],
-        prediction.bbox[2],
-        prediction.bbox[3]
-      );
-      ctx.stroke();
-      ctx.fillText(
-        `${prediction.class} (${Math.round(prediction.score * 100)}%)`,
-        prediction.bbox[0],
-        prediction.bbox[1] > 10 ? prediction.bbox[1] - 5 : 10
-      );
-    }); });
-
-
-
-		
-	  };
-        // ----------------------
-
-        // const image_4D = tensor_image.expandDims(0); // This is size 1,224,224,3
-	// Uncaught (in promise) Error: The shape of dict['image_tensor'] provided in model.execute(dict) must be [-1,-1,-1,3], but was [1,1,224,224,3]
-
-	// const tensor_image_int = tf.cast(tensor_image, 'int32')
-	// Error: The dtype of dict['image_tensor'] provided in model.execute(dict) must be int32, but was float32
-
-        // ----------------------
-	      
-        // 
-	      
-	// outp.innerHTML = tf.max(tensor_image_int);
-	// No response
-
-        // ----------------------
-
-        // Give image to model
-        // model.detect(image).then(predictions => { outp.innerHTML = predictions; }); 
-
-        // ----------------------
-	});  // end of await cocoSsd.load
-		  
-	// -------------------------------------------------
-		  
-	// OR
-
-	// -------------------------------------------------
-	// Way 1
-	// await cocoSsd.load().then(model => { model.detect(image).then(predictions => { outp.innerHTML = predictions; }); });
-	// -------------------------------------------------  
-
-    } catch (error) {
-      outp.innerHTML = error
-    }
-
-  }
-
-  // -------------------------------------------------
-
-
-
-	
 
 </script>
 </body>
