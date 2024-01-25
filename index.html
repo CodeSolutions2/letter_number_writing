@@ -218,15 +218,15 @@
 		// outp.innerHTML += 'resizedTensor.shape= ' + resizedTensor.shape + '<br/>';  // resizedTensor.shape= 1,28,28,3
 
 		// -------------------------
-		// var resizedTensor_grayscale = resizedTensor.mean(3); // This is size 28,28,1
-		var resizedTensor_grayscale = resizedTensor.max(3); // This is size 28,28,1
-		outp.innerHTML += 'resizedTensor_grayscale.shape= ' + resizedTensor_grayscale.shape + '<br/>';
+		// var resizedTensor_grayscale = resizedTensor.mean(3); // resizedTensor_grayscale.shape= 1,28,28
+		var resizedTensor_grayscale = resizedTensor.max(3); // resizedTensor_grayscale.shape= 1,28,28
+		outp.innerHTML += 'resizedTensor_grayscale.shape= ' + resizedTensor_grayscale.shape + '<br/>'; // resizedTensor_grayscale.shape= 1,28,28
 		
-		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // This is size 1,28,28,1
-		outp.innerHTML += 'resizedTensor_grayscale_4D.shape= ' + resizedTensor_grayscale_4D.shape + '<br/>';
+		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // resizedTensor_grayscale_4D.shape= 1,28,28,1
+		outp.innerHTML += 'resizedTensor_grayscale_4D.shape= ' + resizedTensor_grayscale_4D.shape + '<br/>'; // resizedTensor_grayscale_4D.shape= 1,28,28,1
 		// OR
-		var resizedTensor_grayscale_4D_2 = tf.reshape(resizedTensor, [28,28,3,1]);
-		outp.innerHTML += 'resizedTensor_grayscale_4D_2.shape= ' + resizedTensor_grayscale_4D_2.shape + '<br/>';
+		var resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]); // resizedTensor_rgb_3D.shape= 28,28,3
+		outp.innerHTML += 'resizedTensor_rgb_3D.shape= ' + resizedTensor_rgb_3D.shape + '<br/>'; // resizedTensor_rgb_3D.shape= 28,28,3
 		// -------------------------
 
 		const decode_index2numletter = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -256,7 +256,7 @@
 			resizedTensor_grayscale = resizedTensor.max(3); // This is size 28,28,1
 			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);
 			// OR
-			// resizedTensor_grayscale_4D = tf.reshape(resizedTensor, [28,28,3,1]);
+			resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]);
 			
 			// -----------------------------------------------
 
@@ -288,7 +288,8 @@
 			// for loop method
 			let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
 			for (let i = 0; i < 28 * 28; i++) {
-			     let value = resizedTensor_grayscale_4D.dataSync()[i];
+			     // let value = resizedTensor_grayscale_4D.dataSync()[i];
+			     let value = resizedTensor_rgb_3D.dataSync()[i];
 			     imageDataArray[i * 4] = value; // Red component
 			     imageDataArray[i * 4 + 1] = value; // Green component
 			     imageDataArray[i * 4 + 2] = value; // Blue component
