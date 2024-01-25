@@ -244,11 +244,11 @@
 			// -------------------------
 			const tensor = tf.tensor(boundingbox_vec[i]);
 			const b = tf.scalar(canvasWidth);
-			const tensor_from0to1a = tensor.div(b);
+			const tensor_from0to1 = tensor.div(b);
 
 			// OR
 
-			const tensor_from0to1 = tf.tensor([boundingbox_vec[i][0]/canvasHeight, boundingbox_vec[i][0]/canvasWidth, boundingbox_vec[i][0]/canvasHeight, boundingbox_vec[i][0]/canvasWidth]);
+			//const tensor_from0to1 = tf.tensor([boundingbox_vec[i][0]/canvasHeight, boundingbox_vec[i][0]/canvasWidth, boundingbox_vec[i][0]/canvasHeight, boundingbox_vec[i][0]/canvasWidth]);
 			
 			// outp.innerHTML += 'tensor_from0to1= ' + tensor_from0to1 + '<br/>';
 			// -------------------------
