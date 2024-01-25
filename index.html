@@ -53,7 +53,7 @@
   var width = maxX-minX;
   var height = minY-maxY;
   var boundingbox_vec = [];
-  var padboundary = 20;
+  var padboundary = 40;
   var x_start_bottomleft_corner = minX - padboundary/2;
   var y_start_bottomleft_corner = maxY + padboundary/2;
 
@@ -148,10 +148,11 @@
      }
 
      // Coordinates for browser
-     // boundingbox_vec.push([x_start_bottomleft_corner, y_start_bottomleft_corner, width, height])
+     // boundingbox_vec.push([x_start_bottomleft_corner, y_start_bottomleft_corner, width, height]);
 
      // Coordinates for tensorflow.js cropAndResize
-     boundingbox_vec.push([minY, minX, maxY, maxX])
+     // boundingbox_vec.push([minY, minX, maxY, maxX]);
+     boundingbox_vec.push([minY-padboundary/2, minX-padboundary/2, maxY+padboundary/2, maxX+padboundary/2]);
 
      // values accumulate in boundingbox_vec
      outp.innerHTML += "boundingbox_vec entry count:" + "<br/>";
