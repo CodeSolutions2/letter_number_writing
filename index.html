@@ -13,11 +13,8 @@
 	
    <h2 id="select_model" style='text-align: left; display:none'>Write a captial letter or number in the box, click the button to classify</h2>
    
-		
 <!-- Once image and model are selected, make image appear in canvas and run model -->
-   <div style="width:100%;height:100%;position:absolute;vertical-align:middle;text-align:left;">
-        <canvas id="canvasId" width="224" height="224" style="display:block"></canvas>
-    <div>
+   <canvas id="canvasId" width="224" height="224" style="display:block"></canvas>
 
       <div style="width:100%;height:100%;position:absolute;vertical-align:middle;text-align:left;">
         <button id="run_object_detection" onclick="run_object_detection()" style="display:block">run_object_detection</button>&nbsp;&nbsp;&nbsp;
@@ -147,10 +144,8 @@
         height = height + padboundary/2;
      }
 
-     // Coordinates for browser
-     // boundingbox_vec.push([x_start_bottomleft_corner, y_start_bottomleft_corner, width, height]);
-
-     // Coordinates for tensorflow.js cropAndResize
+     // -------------------------
+     // Coordinates for image: tensorflow.js cropAndResize
      // boundingbox_vec.push([minY, minX, maxY, maxX]);
      boundingbox_vec.push([minY-padboundary/2, minX-padboundary/2, maxY+padboundary/2, maxX+padboundary/2]);
 
@@ -162,7 +157,9 @@
         }	
         outp.innerHTML += "<br/>";
      }
-	  
+     // -------------------------
+
+     // Coordinates for browser
      ctx.beginPath();
      ctx.lineWidth = '2';
      ctx.strokeStyle = 'red';
@@ -219,8 +216,8 @@
 		var resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);  // This is size 28,28,3
 
 		// -------------------------
-		// var resizedTensor_grayscale = resizedTensor.mean(3); // This is size 28,28,1
-		var resizedTensor_grayscale = resizedTensor.max(3); // This is size 28,28,1
+		// var resizedTensor_grayscale = resizedTensor.mean(2); // This is size 28,28,1
+		var resizedTensor_grayscale = resizedTensor.max(2); // This is size 28,28,1
 		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // This is size 1,28,28,1
 		// OR
 		// var resizedTensor_grayscale_4D = tf.reshape(resizedTensor, [28,28,3,1]);
@@ -251,8 +248,8 @@
 			// -----------------------------------------------
 			
 			// Convert RGB image [28,28,3] to grayscale [28,28,1]
-			// resizedTensor_grayscale = resizedTensor.mean(3);
-			resizedTensor_grayscale = resizedTensor.max(3); // This is size 28,28,1
+			// resizedTensor_grayscale = resizedTensor.mean(2);
+			resizedTensor_grayscale = resizedTensor.max(2); // This is size 28,28,1
 			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);
 			// OR
 			// resizedTensor_grayscale_4D = tf.reshape(resizedTensor, [28,28,3,1]);
