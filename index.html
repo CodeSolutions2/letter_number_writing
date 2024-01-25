@@ -217,7 +217,7 @@
 		for (var i = 0; i<boundingbox_vec.length; i++){
 			
 			// select each bounding box and make a tensor
-			outp.innerHTML += 'boundingbox_vec ' + i + '<br/>';
+			outp.innerHTML += 'boundingbox_vec ' + i + ': ' + boundingbox_vec[i] + '<br/>';
 				
 			boxes = tf.tensor2d([boundingbox_vec[i]], [1, 4]);
 			
