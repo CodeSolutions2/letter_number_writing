@@ -239,11 +239,15 @@
 
 			// Create an image data from the tensor
 			printTensor = tf.reshape(resizedTensor_grayscale_4D, [28,28]);
-			const imageData = new ImageData(new Uint8ClampedArray(printTensor.dataSync()), 28, 28);
+
+			// DOMException: Index or size is negative or greater than the allowed amount
+			//const imageData = new ImageData(new Uint8ClampedArray(printTensor.dataSync()), 28, 28);
+			// OR
+			const imageData = await printTensor.data();
 
 			// Draw the image data onto the canvas
 			ctx.putImageData(imageData, 0, 0);
-
+			
 			// Save the tensor as an image
 			const link = document.createElement('a');
 			link.href = canvasElement.toDataURL("image/png");
