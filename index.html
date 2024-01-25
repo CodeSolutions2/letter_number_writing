@@ -256,7 +256,7 @@
 
 			// OR
 
-			for loop method
+			// for loop method
 			let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
 			for (let i = 0; i < 28 * 28; i++) {
 			     let value = resizedTensor_grayscale_4D.dataSync()[i];
@@ -272,23 +272,28 @@
 			// OR
 
 			// Tensorflow.js method
-			// Assuming you have a tensor named 'tensor' of size 28x28
-			// const pixels = tf.browser.toPixels(resizedTensor_grayscale_4D);
-
+			
 			// Create a Uint8ClampedArray from the pixels array
 			// try 0
+			// const pixels = tf.browser.toPixels(resizedTensor_grayscale_4D);  // Assuming you have a tensor named 'tensor' of size 28x28
 			// const uint8ClampedArray = new Uint8ClampedArray(pixels);
 			// let imageData = new ImageData(uint8ClampedArray, 28, 28);
 			// Uncaught (in promise) DOMException: An attempt was made to use an object that is not, or is no longer, usable
 			// try 1
+			// const pixels = tf.browser.toPixels(resizedTensor_grayscale_4D);
 			// let imageData = new ImageData(new Uint8ClampedArray(pixels.dataSync()), 28, 28);
 			// Uncaught (in promise) TypeError: pixels.dataSync is not a function
 			// try 2
+			// const pixels = tf.browser.toPixels(resizedTensor_grayscale_4D);
 			// let imageData = new ImageData(new Uint8ClampedArray(pixels), 28, 28);
 			// Uncaught (in promise) DOMException: An attempt was made to use an object that is not, or is no longer, usable
 			// try 3
 			// let imageData = new ImageData(new Uint8ClampedArray(tf.browser.toPixels(resizedTensor_grayscale_4D)), 28, 28);
 			// Uncaught (in promise) DOMException: An attempt was made to use an object that is not, or is no longer, usable
+			// try 4
+			// const pixels = tf.browser.toPixels(resizedTensor_grayscale_4D.dataSync());
+			// let imageData = new ImageData(new Uint8ClampedArray(pixels), 28, 28);
+			
 			// ----------------------
 
 			// Draw the image data onto the canvas
