@@ -328,21 +328,25 @@
 			// outp.innerHTML += 'result.shape= ' + result.shape + '<br/>'; // correct, 1,36
 			// outp.innerHTML += 'Sum value of result: ' + tf.sum(result) + '<br/>'; // correct, sums to 1
 
-			const resultData = await result.data(); // correct
-			// outp.innerHTML += 'resultData= ' + resultData + '<br/>'; // 0.02995668724179268,0.006495801266282797,...,0.04143814370036125
+			
 			
 			// ----------------------
 			// Way 0
 			// Get index of maximum softmax probability 
-			// const index = result.as1D().argMax().dataSync()[0];  // 11
+			const index = result.as1D().argMax().dataSync()[0];  // 11
+			
 			// Get maximum softmax probability 
-			// const maxprob = resultData[index]; // 0.058055195957422256
+			const resultData = await result.data(); // correct
+			// outp.innerHTML += 'resultData= ' + resultData + '<br/>'; // 0.02995668724179268,0.006495801266282797,...,0.04143814370036125
+			const maxprob = resultData[index]; // 0.058055195957422256
 
 			// OR
 
-			// Way 1
+			// Way 1 : it stopped working ...not sure what is correct
+			// const resultData = await result.data(); // correct
 			// const {maxprob, index} = tf.topk(resultData); //maxprob=Tensor [0.0580552], index=Tensor [11]
-			const {maxprob, index} = tf.topk(result.as1D().dataSync());
+			// OR
+			// const {maxprob, index} = tf.topk(result.as1D().dataSync()); // undefined
 			// ----------------------
 
 			outp.innerHTML += 'index= ' + index + '<br/>';
