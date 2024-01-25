@@ -232,7 +232,7 @@
 		// var firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 0]);
 		var secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 1]);
 		// var thirdLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, -1, 2]);
-		outp.innerHTML += 'secondLayer.shape test0 = ' + secondLayer.shape + '<br/>'; // secondLayer.shape test0 = 28,1,3
+		outp.innerHTML += 'secondLayer.shape test0 = ' + secondLayer.shape + '<br/>'; // secondLayer.shape test0 = 28,28,1
 		
 		// -------------------------
 
@@ -261,7 +261,7 @@
 			// Convert RGB image [28,28,3] to grayscale [28,28,1]
 			// resizedTensor_grayscale = resizedTensor.mean(3);
 			resizedTensor_grayscale = resizedTensor.max(3); // This is size 28,28,1
-			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);
+			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);  // OK
 			// OR
 			resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]);
 			// OR
@@ -332,7 +332,7 @@
 			     imageDataArray[i * 4] = value; // Red component
 			     imageDataArray[i * 4 + 1] = value; // Green component
 			     imageDataArray[i * 4 + 2] = value; // Blue component
-			     imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
+			     //imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
 			}
 
 			let imageData = new ImageData(imageDataArray, 28, 28);
