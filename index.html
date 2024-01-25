@@ -332,7 +332,7 @@
 			     imageDataArray[i * 4] = value; // Red component
 			     imageDataArray[i * 4 + 1] = value; // Green component
 			     imageDataArray[i * 4 + 2] = value; // Blue component
-			     //imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
+			     imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
 			}
 
 			let imageData = new ImageData(imageDataArray, 28, 28);
