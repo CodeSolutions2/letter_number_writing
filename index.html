@@ -205,14 +205,20 @@
 		// Ensure that tensor is 4d
 		const x = tf.reshape(image_4D, [1, shape_out[1], shape_out[2], shape_out[3]])
 
-		
 		// -----------------------------------------------
-		var boxes = tf.tensor2d([boundingbox_vec[0]], [1, 4]);  // initialize variable
+		
+		var boxes = tf.tensor2d([[0, 0, 1, 1]], [1, 4]);  // initialize variable
 		const boxIndices = tf.tensor1d([0], 'int32');
 		const newSize = [28, 28];
 		var resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);  // initialize variable
 		var resizedTensor_grayscale = resizedTensor.mean(3); // This is size 28,28,1
 		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // This is size 1,28,28,1
+
+		const decode_index2numletter = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+		
+		word_out = [];
+		
+		// -----------------------------------------------
 		
 		for (var i = 0; i<boundingbox_vec.length; i++){
 			
@@ -310,13 +316,12 @@
 			const link = document.createElement('a');
 			link.href = canvasElement.toDataURL("image/png");
 			link.download = `tensor_${i}.png`;
-			// link.download = "tensor.png";
 			link.click();
 			
 			// -----------------------------------------------
 			
 			// To confirm, would need to: convert the tensor to Image, then create a canvas, then drawImage to canvas
-			outp.innerHTML += 'resizedTensor_grayscale max= ' + tf.max(resizedTensor_grayscale) + '<br/>'; // resizedTensor_grayscale max= Tensor 0
+			outp.innerHTML += 'resizedTensor_grayscale max= ' + tf.max(resizedTensor_grayscale) + '<br/>'; // resizedTensor_grayscale max= Tensor 85.38902282714844
 			
 			// outp.innerHTML += 'resizedTensor_grayscale_4D.shape = ' + resizedTensor_grayscale_4D.shape + '<br/>'; //resizedTensor_grayscale_4D.shape = 1,28,28,1
 			
@@ -328,8 +333,6 @@
 			// outp.innerHTML += 'result.shape= ' + result.shape + '<br/>'; // correct, 1,36
 			// outp.innerHTML += 'Sum value of result: ' + tf.sum(result) + '<br/>'; // correct, sums to 1
 
-			
-			
 			// ----------------------
 			// Way 0
 			// Get index of maximum softmax probability 
@@ -351,13 +354,19 @@
 
 			outp.innerHTML += 'index= ' + index + '<br/>';
 			outp.innerHTML += 'maxprob= ' + maxprob + '<br/>';
+
+			// ----------------------
+
+			// Decode the index to the label
+			word_out.push(decode_index2numletter[index])
 			
-			
+			// ----------------------
 			
 		} // end of for
-	  
 
 	}  // end of image.onload
+
+	outp.innerHTML += 'word_out= ' + word_out + '<br/>';
   }
 	
   // -------------------------------------------------
