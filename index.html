@@ -221,7 +221,7 @@
 
 			const tensor = tf.tensor(boundingbox_vec[i]);
 			const b = tf.scalar(224);
-			const tensor_from0to1 = image_filter0.div(b);
+			const tensor_from0to1 = tensor.div(b);
 
 			outp.innerHTML += 'tensor_from0to1= ' + tensor_from0to1 + '<br/>';
 			
