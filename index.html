@@ -223,14 +223,15 @@
 		outp.innerHTML += 'resizedTensor_grayscale.shape= ' + resizedTensor_grayscale.shape + '<br/>'; // resizedTensor_grayscale.shape= 1,28,28
 		
 		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // resizedTensor_grayscale_4D.shape= 1,28,28,1
-		outp.innerHTML += 'resizedTensor_grayscale_4D.shape= ' + resizedTensor_grayscale_4D.shape + '<br/>'; // resizedTensor_grayscale_4D.shape= 1,28,28,1
+		outp.innerHTML += 'resizedTensor_grayscale_4D.shape= ' + resizedTensor_grayscale_4D.shape + '<br/>';
 		// OR
 		var resizedTensor_rgb_3D = tf.reshape(resizedTensor, [28,28,3]); // resizedTensor_rgb_3D.shape= 28,28,3
-		outp.innerHTML += 'resizedTensor_rgb_3D.shape= ' + resizedTensor_rgb_3D.shape + '<br/>'; // resizedTensor_rgb_3D.shape= 28,28,3
+		outp.innerHTML += 'resizedTensor_rgb_3D.shape= ' + resizedTensor_rgb_3D.shape + '<br/>'; 
 		// OR
 		// Read the red layer only: to understand how to index a tensor in javascript
 		// var firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
 		var secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, 1, -1]);
+		outp.innerHTML += 'secondLayer.shape test0 = ' + secondLayer.shape + '<br/>';
 		// -------------------------
 
 		const decode_index2numletter = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -264,8 +265,9 @@
 			// OR
 			// Read the red layer only: to understand how to index a tensor in javascript
 			// firstLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, -1]);
-			secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [-1, 1, -1]);
+			secondLayer = tf.slice(resizedTensor_rgb_3D, [0, 0, 0], [1, -1, 1]);
 			secondLayer = tf.reshape(secondLayer, [1,28,28,1]);
+			outp.innerHTML += 'secondLayer.shape test1 = ' + secondLayer.shape + '<br/>';
 			
 			// -----------------------------------------------
 
