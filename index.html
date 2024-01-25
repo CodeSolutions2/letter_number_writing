@@ -146,8 +146,12 @@
      } else {
         height = height + padboundary/2;
      }
-     
-     boundingbox_vec.push([x_start_bottomleft_corner, y_start_bottomleft_corner, width, height])
+
+     // Coordinates for browser
+     // boundingbox_vec.push([x_start_bottomleft_corner, y_start_bottomleft_corner, width, height])
+
+     // Coordinates for tensorflow.js cropAndResize
+     boundingbox_vec.push([minY, minX, maxY, maxX])
 
      // values accumulate in boundingbox_vec
      outp.innerHTML += "boundingbox_vec entry count:" + "<br/>";
@@ -211,12 +215,17 @@
 		var resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]); // This is size 1,28,28,1
 		
 		for (var i = 0; i<boundingbox_vec.length; i++){
+			
 			// select each bounding box and make a tensor
 			outp.innerHTML += 'boundingbox_vec ' + i + '<br/>';
 				
 			boxes = tf.tensor2d([boundingbox_vec[i]], [1, 4]);
+			
 			resizedTensor = tf.image.cropAndResize(x, boxes, boxIndices, newSize);
-
+			
+			// -----------------------------------------------
+			
+			// Convert RGB image [28,28,3] to grayscale [28,28,1]
 			resizedTensor_grayscale = resizedTensor.mean(3);
 			resizedTensor_grayscale_4D = tf.reshape(resizedTensor_grayscale, [1,28,28,1]);
 
@@ -247,20 +256,28 @@
 
 			// OR
 
-			let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
-			for (let i = 0; i < 28 * 28; i++) {
-			     let value = resizedTensor_grayscale_4D.dataSync()[i];
-			     imageDataArray[i * 4] = value; // Red component
-			     imageDataArray[i * 4 + 1] = value; // Green component
-			     imageDataArray[i * 4 + 2] = value; // Blue component
-			     imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
-			   }
+			// for loop method
+			// let imageDataArray = new Uint8ClampedArray(28 * 28 * 4);
+			// for (let i = 0; i < 28 * 28; i++) {
+			//      let value = resizedTensor_grayscale_4D.dataSync()[i];
+			//      imageDataArray[i * 4] = value; // Red component
+			//      imageDataArray[i * 4 + 1] = value; // Green component
+			//      imageDataArray[i * 4 + 2] = value; // Blue component
+			//      imageDataArray[i * 4 + 3] = 255; // Alpha component, set to 255 to make it fully opaque
+			// }
 
-			let imageData = new ImageData(imageDataArray, 28, 28);
+			// let imageData = new ImageData(imageDataArray, 28, 28);
+			// WORKS!
 
 			// OR
-			
-			// let imageData = new ImageData(resizedTensor_grayscale_4D.dataSync(), 28, 28);
+
+			// Tensorflow.js method
+			// Assuming you have a tensor named 'tensor' of size 28x28
+			const pixels = tf.browser.toPixels(resizedTensor_grayscale_4D);
+
+			// Create a Uint8ClampedArray from the pixels array
+			const uint8ClampedArray = new Uint8ClampedArray(pixels);
+			let imageData = new ImageData(uint8ClampedArray, 28, 28);
 			
 			// ----------------------
 
@@ -303,7 +320,7 @@
 
 			// Way 1
 			// const {maxprob, index} = tf.topk(resultData); //maxprob=Tensor [0.0580552], index=Tensor [11]
-			const {maxprob, index} = tf.topk(result.dataSync()[0]);
+			const {maxprob, index} = tf.topk(result.as1D().dataSync());
 			// ----------------------
 
 			outp.innerHTML += 'index= ' + index + '<br/>';
