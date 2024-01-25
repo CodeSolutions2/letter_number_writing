@@ -150,7 +150,7 @@
      boundingbox_vec.push([x_start_bottomleft_corner, y_start_bottomleft_corner, width, height])
 
      // values accumulate in boundingbox_vec
-     outp.innerHTML += "boundingbox_vec:" + "<br/>";
+     outp.innerHTML += "boundingbox_vec entry count:" + "<br/>";
      for(var i = 0; i<boundingbox_vec.length; i++){
         for(var j = 0; j<4; j++){
           outp.innerHTML += boundingbox_vec[i][j] + ",";
@@ -232,7 +232,7 @@
 			canvasElement.height = canvasElement.width;
 
 			// Get the 2D rendering context
-			const ctx = canvas.getContext("2d");
+			const ctx = canvasElement.getContext("2d");
 			
 			// Add the canvas to the document body or any other desired element
 			document.body.appendChild(canvasElement);
