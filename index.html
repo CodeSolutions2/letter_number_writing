@@ -11,12 +11,12 @@
 <!-- https://js.tensorflow.org/api/1.0.0/ -->
 <!-- https://www.jsdelivr.com/?query=author%3A%20tensorflow&page=1 -->
 	
-<h2 id="select_model" style='text-align: left; display:none'>Write a captial letter or number in the box, click the button to classify</h2>
+<h2 id="select_model" style='text-align: left; display:block'>Write captial letters or numbers in the canvas box, then click the button 'Classify writing' to classify each character made with one stroke.</h2>
 
-<button id="cut_images_using_boundingboxes" onclick="cut_images_using_boundingboxes()" style="display:block">cut_images_using_boundingboxes</button>
+<button id="cut_images_using_boundingboxes" onclick="cut_images_using_boundingboxes()" style="display:block">Classify writing</button>
 	
 <!-- Once image and model are selected, make image appear in canvas and run model -->
-<canvas id="canvasId" width="500" height="500" style="display:block"></canvas>
+<canvas id="canvasId" width="500" height="500" style="display:block; 'text-align: center"></canvas>
 
 
 <div id="output" style="font-family:courier;font-size:24px;height:300px"></div>
@@ -120,8 +120,8 @@
      // outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY + " : " +  "minX=" + minX + " : " +  "minY=" + minY + "<br/>";
 
      // Put each box in a vector: [x_start_bottomleft_corner, y_start_bottomleft_corner, width, height]
-     x_start_bottomleft_corner = minX - padboundary/2;
-     y_start_bottomleft_corner = maxY + padboundary/2;
+     x_start_bottomleft_corner = minX - padboundary;
+     y_start_bottomleft_corner = maxY + padboundary;
 	  
      //The rectangle's width. Positive values are to the right, and negative to the left.  
      width = maxX-minX;
@@ -129,15 +129,15 @@
      // The rectangle's height. Positive values are down, and negative are up.
      height = minY-maxY; 
      if (width < 0){
-        width = width - padboundary/2;
+        width = width - padboundary;
      } else {
-        width = width + padboundary/2;
+        width = width + padboundary;
      }
 
      if (height < 0){
-        height = height - padboundary/2;
+        height = height - padboundary;
      } else {
-        height = height + padboundary/2;
+        height = height + padboundary;
      }
 
      // -------------------------
@@ -156,12 +156,12 @@
      // -------------------------
 
      // Coordinates for browser
-     // ctx.beginPath();
-     // ctx.lineWidth = '2';
-     // ctx.strokeStyle = 'red';
-     // ctx.fillStyle = 'red';
-     // ctx.rect(x_start_bottomleft_corner, y_start_bottomleft_corner, width, height);
-    //  ctx.stroke();
+     ctx.beginPath();
+     ctx.lineWidth = '1';
+     ctx.strokeStyle = 'red';
+     ctx.fillStyle = 'red';
+     ctx.rect(x_start_bottomleft_corner, y_start_bottomleft_corner, width, height);
+     ctx.stroke();
 
      maxX = 0;
      maxY = 0;
