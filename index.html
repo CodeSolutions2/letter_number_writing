@@ -57,7 +57,7 @@
 	
   canvasElement.addEventListener("mousedown", (e) => {
      ctx.lineTo(e.offsetX, e.offsetY);
-     ctx.lineWidth = 15;  // thickness of line
+     ctx.lineWidth = 5; //15;  // thickness of line
      ctx.beginPath();
      canvasElement.addEventListener("mousemove", createlines, false);
 			 
@@ -129,15 +129,19 @@
      // The rectangle's height. Positive values are down, and negative are up.
      height = minY-maxY; 
      if (width < 0){
-        width = width - padboundary;
+        // width = width - padboundary;
+	     width = width + padboundary;
      } else {
-        width = width + padboundary;
+        // width = width + padboundary;
+	     width = width - padboundary;
      }
 
      if (height < 0){
-        height = height - padboundary;
+        // height = height - padboundary;
+	     height = height + padboundary;
      } else {
-        height = height + padboundary;
+        // height = height + padboundary;
+	     height = height - padboundary;
      }
 
      // -------------------------
