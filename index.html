@@ -19,8 +19,6 @@
 <style>canvas {border: 1px solid black;}</style>
   
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script> 
-
   
 <script>
   // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
@@ -42,9 +40,9 @@
   var height = minY-maxY;
   var boundingbox_vec = [];
   var padboundary = 40;
-  var spaceBorder = padboundary/2;
-  var x_start_bottomleft_corner = minX - padboundary/2;
-  var y_start_bottomleft_corner = maxY + padboundary/2;
+  var spaceBorder = padboundary/2; // the distance from the letter to boundingbox
+  var x_start_bottomleft_corner = minX - spaceBorder;
+  var y_start_bottomleft_corner = maxY + spaceBorder;
 
   // -------------------------------------------------
 	
@@ -139,7 +137,7 @@
      // -------------------------
      // Coordinates for image: tensorflow.js cropAndResize
      // boundingbox_vec.push([minY, minX, maxY, maxX]);
-     boundingbox_vec.push([minY-padboundary/2, minX-padboundary/2, maxY+padboundary/2, maxX+padboundary/2]);
+     boundingbox_vec.push([minY-spaceBorder, minX-spaceBorder, maxY+spaceBorder, maxX+spaceBorder]);
 
      // values accumulate in boundingbox_vec
      // outp.innerHTML += "boundingbox_vec entry count:" + "<br/>";
