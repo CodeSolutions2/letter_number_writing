@@ -47,6 +47,7 @@
   var height = minY-maxY;
   var boundingbox_vec = [];
   var padboundary = 40;
+  var spaceBorder = padboundary/2;
   var x_start_bottomleft_corner = minX - padboundary/2;
   var y_start_bottomleft_corner = maxY + padboundary/2;
 
@@ -120,8 +121,8 @@
      // outp.innerHTML += "maxX=" + maxX + " : " +  "maxY=" + maxY + " : " +  "minX=" + minX + " : " +  "minY=" + minY + "<br/>";
 
      // Put each box in a vector: [x_start_bottomleft_corner, y_start_bottomleft_corner, width, height]
-     x_start_bottomleft_corner = minX - padboundary;
-     y_start_bottomleft_corner = maxY + padboundary;
+     x_start_bottomleft_corner = minX - spaceBorder;
+     y_start_bottomleft_corner = maxY + spaceBorder;
 	  
      //The rectangle's width. Positive values are to the right, and negative to the left.  
      width = maxX-minX;
@@ -129,15 +130,15 @@
      // The rectangle's height. Positive values are down, and negative are up.
      height = minY-maxY; 
      if (width < 0){
-        width = width - (2*padboundary);
+        width = width - (2*spaceBorder);
      } else {
-        width = width + (2*padboundary);
+        width = width + (2*spaceBorder);
      }
 
      if (height < 0){
-        height = height - (2*padboundary);
+        height = height - (2*spaceBorder);
      } else {
-        height = height + (2*padboundary);
+        height = height + (2*spaceBorder);
      }
 
      // -------------------------
@@ -181,8 +182,6 @@
 	const image = new Image();
 	image.src = canvasElement.toDataURL();  // This gives the url to the image drawn on the canvas
 
-	
-	  
 	image.onload = async () => {
 
 		var word_out = [];
