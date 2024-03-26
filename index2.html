@@ -57,12 +57,13 @@
 
 // For touchscreens
   canvasElement.addEventListener("touchstart", (e) => {
+	  e.preventDefault();
      ctx.lineTo(e.offsetX, e.offsetY);
      ctx.lineWidth = 5; //15;  // thickness of line
      ctx.beginPath();
      canvasElement.addEventListener("touchmove", createlines, false);
 			 
-  }, false);
+  }, { passive: false });
 
 // -------------------------------------------------
 
