@@ -57,10 +57,9 @@
 			 
   }, false);
 
-// For touchscreens
+// For Touchscreens
   canvasElement.addEventListener("touchstart", (e) => {
      e.preventDefault();
-     // const touch = e.touches[0];
      ctx.lineTo(e.offsetX, e.offsetY);
      ctx.lineWidth = 5; //15;  // thickness of line
      ctx.beginPath();
@@ -70,46 +69,7 @@
 
 // -------------------------------------------------
 
-var createlines_touch = function(e){
-
-     const touch = e.changedTouches;
-	
-     // provides the offset in the X coordinate of the pointer between that event and the padding edge of the target node. (CORRECT!!)
-     ctx.lineTo(e.touches[0].clientX-rect.left, e.touches[0].clientY-rect.top);
-	
-     // outp.innerHTML += 'touch[0].pageX: ' + touch[0].pageX + '<br/>';
-     // outp.innerHTML += 'touch[0].pageY: ' + touch[0].pageY + '<br/>';
-
-     // outp.innerHTML += 'e.touches[0].clientX: ' + e.touches[0].clientX + '<br/>';
-     // outp.innerHTML += 'e.touches[0].clientY: ' + e.touches[0].clientY + '<br/>';
-	  
-     ctx.strokeStyle = "green";  // color of line
-     ctx.stroke();
-
-     if (e.touches[0].clientX-rect.left > maxX) {
-        maxX = e.touches[0].clientX-rect.left;
-     } else {
-        maxX = maxX; 
-     }
-     if (e.touches[0].clientY-rect.top > maxY) {
-	maxY = e.touches[0].clientY-rect.top;
-     } else {
-        maxY = maxY; 
-     }
-     if (e.touches[0].clientX-rect.left < minX) {
-        minX = e.touches[0].clientX-rect.left;
-     } else {
-        minX = minX; 
-     }
-     if (e.touches[0].clientY-rect.top < minY) {
-        minY = e.touches[0].clientY-rect.top;
-     } else {
-        minY = minY; 
-     }
-  };
-
-// -------------------------------------------------
-
+// For Desktop
   var createlines = function(e){
      // provides the offset in the X coordinate of the pointer between that event and the padding edge of the target node. (CORRECT!!)
      ctx.lineTo(e.offsetX, e.offsetY);
@@ -134,6 +94,39 @@ var createlines_touch = function(e){
      }
      if (e.offsetY < minY) {
         minY = e.offsetY;
+     } else {
+        minY = minY; 
+     }
+  };
+
+// For Touchscreens
+var createlines_touch = function(e){
+
+     const touch = e.changedTouches;
+	
+     // provides the offset in the X coordinate of the pointer between that event and the padding edge of the target node. (CORRECT!!)
+     ctx.lineTo(e.touches[0].clientX-rect.left, e.touches[0].clientY-rect.top);
+	  
+     ctx.strokeStyle = "green";  // color of line
+     ctx.stroke();
+
+     if (e.touches[0].clientX-rect.left > maxX) {
+        maxX = e.touches[0].clientX-rect.left;
+     } else {
+        maxX = maxX; 
+     }
+     if (e.touches[0].clientY-rect.top > maxY) {
+	maxY = e.touches[0].clientY-rect.top;
+     } else {
+        maxY = maxY; 
+     }
+     if (e.touches[0].clientX-rect.left < minX) {
+        minX = e.touches[0].clientX-rect.left;
+     } else {
+        minX = minX; 
+     }
+     if (e.touches[0].clientY-rect.top < minY) {
+        minY = e.touches[0].clientY-rect.top;
      } else {
         minY = minY; 
      }
@@ -195,9 +188,8 @@ var createlines_touch = function(e){
 	  
   }, false);
 
-  // -------------------------------------------------
-
-// For touchscreens
+	
+// For Touchscreens
 canvasElement.addEventListener("touchend", () => {
 	
      canvasElement.removeEventListener('touchmove', createlines_touch, false);
