@@ -70,32 +70,36 @@
 
 var createlines_touch = function(e){
 
-     const touch = e.touches[0];
+     // const touch = e.touches[0];
+     const touch = e.changedTouches;
 	
      // provides the offset in the X coordinate of the pointer between that event and the padding edge of the target node. (CORRECT!!)
      // ctx.lineTo(e.offsetX, e.offsetY);
-	ctx.lineTo(touch.offsetX, touch.offsetY);
+     ctx.lineTo(touch[0].offsetX, touch[0].offsetY);
+
+     outp.innerHTML += 'touch[0].offsetX: ' + touch[0].offsetX + '<br/>';
+     outp.innerHTML += 'touch[0].offsetY: ' + touch[0].offsetY + '<br/>';
 	  
      ctx.strokeStyle = "green";  // color of line
      ctx.stroke();
 
-     if (touch.offsetX > maxX) {
-        maxX = touch.offsetX;
+     if (touch[0].offsetX > maxX) {
+        maxX = touch[0].offsetX;
      } else {
         maxX = maxX; 
      }
-     if (touch.offsetY > maxY) {
-        maxY = touch.offsetY;
+     if (touch[0].offsetY > maxY) {
+        maxY = touch[0].offsetY;
      } else {
         maxY = maxY; 
      }
-     if (touch.offsetX < minX) {
-        minX = touch.offsetX;
+     if (touch[0].offsetX < minX) {
+        minX = touch[0].offsetX;
      } else {
         minX = minX; 
      }
-     if (e.offsetY < minY) {
-        minY = e.offsetY;
+     if (touch[0].offsetY < minY) {
+        minY = touch[0].offsetY;
      } else {
         minY = minY; 
      }
