@@ -70,15 +70,14 @@
 
 var createlines_touch = function(e){
 
-     // const touch = e.touches[0];
      const touch = e.changedTouches;
 	
      // provides the offset in the X coordinate of the pointer between that event and the padding edge of the target node. (CORRECT!!)
      // ctx.lineTo(e.offsetX, e.offsetY);
-     ctx.lineTo(touch[0].offsetX, touch[0].offsetY);
+     ctx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
 
-     outp.innerHTML += 'e.offsetX: ' + e.offsetX + '<br/>';
-     outp.innerHTML += 'e.offsetY: ' + e.offsetY + '<br/>';
+     outp.innerHTML += 'e.touches[0].offsetX: ' + e.touches[0].offsetX + '<br/>';
+     outp.innerHTML += 'e.touches[0].offsetY: ' + e.touches[0].offsetY + '<br/>';
 	
      outp.innerHTML += 'touch[0].pageX: ' + touch[0].pageX + '<br/>';
      outp.innerHTML += 'touch[0].pageY: ' + touch[0].pageY + '<br/>';
@@ -89,23 +88,23 @@ var createlines_touch = function(e){
      ctx.strokeStyle = "green";  // color of line
      ctx.stroke();
 
-     if (touch[0].offsetX > maxX) {
-        maxX = touch[0].offsetX;
+     if (e.touches[0].clientX > maxX) {
+        maxX = e.touches[0].clientX;
      } else {
         maxX = maxX; 
      }
-     if (touch[0].offsetY > maxY) {
-        maxY = touch[0].offsetY;
+     if (e.touches[0].clientY > maxY) {
+	maxY = e.touches[0].clientY;
      } else {
         maxY = maxY; 
      }
-     if (touch[0].offsetX < minX) {
-        minX = touch[0].offsetX;
+     if (e.touches[0].clientX < minX) {
+        minX = e.touches[0].clientX;
      } else {
         minX = minX; 
      }
-     if (touch[0].offsetY < minY) {
-        minY = touch[0].offsetY;
+     if (e.touches[0].clientY < minY) {
+        minY = e.touches[0].clientY;
      } else {
         minY = minY; 
      }
