@@ -77,8 +77,14 @@ var createlines_touch = function(e){
      // ctx.lineTo(e.offsetX, e.offsetY);
      ctx.lineTo(touch[0].offsetX, touch[0].offsetY);
 
-     outp.innerHTML += 'touch[0].offsetX: ' + touch[0].offsetX + '<br/>';
-     outp.innerHTML += 'touch[0].offsetY: ' + touch[0].offsetY + '<br/>';
+     outp.innerHTML += 'e.offsetX: ' + e.offsetX + '<br/>';
+     outp.innerHTML += 'e.offsetY: ' + e.offsetY + '<br/>';
+	
+     outp.innerHTML += 'touch[0].pageX: ' + touch[0].pageX + '<br/>';
+     outp.innerHTML += 'touch[0].pageY: ' + touch[0].pageY + '<br/>';
+
+     outp.innerHTML += 'e.touches[0].clientX: ' + e.touches[0].clientX + '<br/>';
+     outp.innerHTML += 'e.touches[0].clientY: ' + e.touches[0].clientY + '<br/>';
 	  
      ctx.strokeStyle = "green";  // color of line
      ctx.stroke();
