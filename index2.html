@@ -44,6 +44,8 @@
   var x_start_bottomleft_corner = minX - spaceBorder;
   var y_start_bottomleft_corner = maxY + spaceBorder;
 
+  var rect = canvasElement.getBoundingClientRect();
+
 // -------------------------------------------------
   
 // For Desktop
@@ -73,38 +75,34 @@ var createlines_touch = function(e){
      const touch = e.changedTouches;
 	
      // provides the offset in the X coordinate of the pointer between that event and the padding edge of the target node. (CORRECT!!)
-     // ctx.lineTo(e.offsetX, e.offsetY);
-     ctx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
-
-     outp.innerHTML += 'e.touches[0].offsetX: ' + e.touches[0].offsetX + '<br/>';
-     outp.innerHTML += 'e.touches[0].offsetY: ' + e.touches[0].offsetY + '<br/>';
+     ctx.lineTo(e.touches[0].clientX-rect.left, e.touches[0].clientY-rect.top);
 	
-     outp.innerHTML += 'touch[0].pageX: ' + touch[0].pageX + '<br/>';
-     outp.innerHTML += 'touch[0].pageY: ' + touch[0].pageY + '<br/>';
+     // outp.innerHTML += 'touch[0].pageX: ' + touch[0].pageX + '<br/>';
+     // outp.innerHTML += 'touch[0].pageY: ' + touch[0].pageY + '<br/>';
 
-     outp.innerHTML += 'e.touches[0].clientX: ' + e.touches[0].clientX + '<br/>';
-     outp.innerHTML += 'e.touches[0].clientY: ' + e.touches[0].clientY + '<br/>';
+     // outp.innerHTML += 'e.touches[0].clientX: ' + e.touches[0].clientX + '<br/>';
+     // outp.innerHTML += 'e.touches[0].clientY: ' + e.touches[0].clientY + '<br/>';
 	  
      ctx.strokeStyle = "green";  // color of line
      ctx.stroke();
 
-     if (e.touches[0].clientX > maxX) {
-        maxX = e.touches[0].clientX;
+     if (e.touches[0].clientX-rect.left > maxX) {
+        maxX = e.touches[0].clientX-rect.left;
      } else {
         maxX = maxX; 
      }
-     if (e.touches[0].clientY > maxY) {
-	maxY = e.touches[0].clientY;
+     if (e.touches[0].clientY-rect.top > maxY) {
+	maxY = e.touches[0].clientY-rect.top;
      } else {
         maxY = maxY; 
      }
-     if (e.touches[0].clientX < minX) {
-        minX = e.touches[0].clientX;
+     if (e.touches[0].clientX-rect.left < minX) {
+        minX = e.touches[0].clientX-rect.left;
      } else {
         minX = minX; 
      }
-     if (e.touches[0].clientY < minY) {
-        minY = e.touches[0].clientY;
+     if (e.touches[0].clientY-rect.top < minY) {
+        minY = e.touches[0].clientY-rect.top;
      } else {
         minY = minY; 
      }
